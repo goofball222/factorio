@@ -41,7 +41,7 @@ fi
 if [ ! -f "${SAVEDIR}/save.zip" ];
   then
     echo "# Creating new map / save.zip in ${SAVEDIR} with settings from ${CONFIGDIR}/map-gen-settings.json"
-    ${BINDIR}/x64/factorio --create save.zip --map-gen-settings /opt/factorio/config/map-gen-settings.json
+    ${BINDIR}/x64/factorio --create "${SAVEDIR}/save.zip" --map-gen-settings "${CONFIGDIR}/map-gen-settings.json"
   else
     echo "# Using latest map / save.zip found in ${SAVEDIR}"
 fi
