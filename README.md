@@ -9,6 +9,7 @@
 | --- | --- |
 | latest | Factorio headless server stable release (v0.13.20 as of 2016-08-29) |
 | unstable | Factorio headless server experimental release (v0.14.14 as of 2016-10-14) |
+| release-0.13.20 | Factorio headless server stable release v0.13.20 |
 
 ## Important notes
 
@@ -32,8 +33,8 @@ $ docker run --name factorio -d -p 34197:34197/udp \
 ```
 
 The container exposes two ports:
-27105/tcp: Factorio RCON port
-34197/udp: Factorio default server port
+* 27105/tcp: Factorio RCON port
+* 34197/udp: Factorio default server port
 
 The container exposes three volumes:
 * /opt/factorio/config - Factorio headless server config files
@@ -50,6 +51,8 @@ $ docker run --name factorio -d -p 34197:34197/udp -p 27015:27015/tcp \
 	-v /path/to/saves:/opt/factorio/saves \
 	goofball222/factorio
 ```
+
+---
 
 During the first launch of the container the server-settings.json and map-gen-settings.json config files will be populated with the Factorio sample/defaults if they don't already exist. It is highly recommended to edit these files and relaunch the container afterwards or provide pre-setup copies in the config directory prior to first launch. The config sample files are available in the headless server tar.gz file in the "data" folder. The container will also generate a default map / save.zip in the saves folder if one is not found on launch.
 
