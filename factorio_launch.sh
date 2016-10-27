@@ -21,7 +21,13 @@ if [ -z $FACTORIO_RCON_PASSWORD ]
 fi
 FACTORIO_CMD="$FACTORIO_CMD --rcon-password $FACTORIO_RCON_PASSWORD"
 
-# Copy example configs to default if they don't exist
+# Copy example configs to CONFIGDIR
+cp "${DATADIR}/server-settings.example.json" "${CONFIGDIR}/server-settings.example.json"
+echo "# Copied latest server-settings.example.json to ${CONFIGDIR}"
+cp "${DATADIR}/map-gen-settings.example.json" "${CONFIGDIR}/map-gen-settings.example.json"
+echo "# Copied latest map-gen-settings.example.json to ${CONFIGDIR}"
+
+# Copy example configs to working configuration if they don't exist
 if [ ! -f "${CONFIGDIR}/server-settings.json" ];
   then
     echo "# No server-settings.json found in ${CONFIGDIR}, copying from example"
@@ -37,7 +43,7 @@ if [ ! -f "${CONFIGDIR}/map-gen-settings.json" ];
     echo "# Using existing map-gen-settings.json found in ${CONFIGDIR}"
 fi
 
-# Check for existing map / save.zip, use if found, generate new with settings if not.
+# Check for existing map / save.zip, use if found. Generate new with settings if not.
 if [ ! -f "${SAVEDIR}/save.zip" ];
   then
     echo "# Creating new map / save.zip in ${SAVEDIR} with settings from ${CONFIGDIR}/map-gen-settings.json"
