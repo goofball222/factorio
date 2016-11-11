@@ -8,7 +8,7 @@
 | Tag | Description |
 | --- | --- |
 | latest | Factorio headless server stable release (v0.14.19 as of 2016-11-06) |
-| unstable | Factorio headless server experimental release (v0.14.19 as of 2016-11-06) |
+| unstable | Factorio headless server experimental release (v0.14.20 as of 2016-11-09) |
 | release-0.14.19 | Factorio headless server stable release v0.14.19 |
 
 ## Important notes
