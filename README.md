@@ -33,7 +33,7 @@ $ docker run --name factorio -d -p 34197:34197/udp \
 ```
 
 The container exposes two ports:
-* 27105/tcp: Factorio RCON port
+* 27015/tcp: Factorio RCON port
 * 34197/udp: Factorio default server port
 
 The container exposes three volumes:
