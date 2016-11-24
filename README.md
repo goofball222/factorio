@@ -7,8 +7,8 @@
 ## Docker tags:
 | Tag | Description |
 | --- | --- |
-| latest | Factorio headless server stable release (v0.14.20 as of 2016-11-09) |
-| unstable | Factorio headless server experimental release (v0.14.20 as of 2016-11-09) |
+| latest | Factorio headless server stable release - v0.14.20 as of 2016-11-09 |
+| unstable | Factorio headless server experimental release - v0.14.21 as of 2016-11-24 |
 | release-0.14.20 | Factorio headless server stable release v0.14.20 |
 
 ## Important notes
