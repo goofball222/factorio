@@ -4,7 +4,7 @@ MAINTAINER Goofball222 <goofball222@gmail.com>
 
 WORKDIR /opt
 
-ENV VERSION=0.14.21
+ENV VERSION=0.14.22
 
 COPY ./factorio.crt /opt/
 
