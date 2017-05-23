@@ -8,7 +8,7 @@
 | Tag | Description |
 | --- | --- |
 | latest | Factorio headless server stable release - v0.14.23 as of 2017-04-24 |
-| unstable | Factorio headless server experimental release - v0.15.12 as of 2017-05-18 |
+| unstable | Factorio headless server experimental release - v0.15.13 as of 2017-05-23 |
 | release-0.14.23 | Factorio headless server stable release v0.14.23 |
 | release-0.14.22 | Factorio headless server stable release v0.14.22 |
 | release-0.14.21 | Factorio headless server stable release v0.14.21 |
@@ -17,8 +17,12 @@
 
 **Always stop the existing container and make a backup copy of your Factorio data before installing newer images.**
 
-Changes 2016-10-17:
-* Initial release/github checkin. Basic usage guide and README.md documentation.
+---
+
+Changes 2017-05-23:
+* Updated unstable tag for experimental release v0.15.13: https://forums.factorio.com/viewtopic.php?f=3&t=48349
+
+---
 
 ## Usage
 
