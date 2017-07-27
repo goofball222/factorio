@@ -7,11 +7,11 @@
 ## Docker tags:
 | Tag | Description |
 | --- | --- |
-| latest | Factorio headless server stable release - v0.14.23 as of 2017-04-24 |
+| latest | Factorio headless server stable release - v0.15.31 as of 2017-07-25 |
 | unstable | Factorio headless server experimental release - v0.15.31 as of 2017-07-25 |
+| release-0.15.31 | Factorio headless server stable release v0.15.31 |
 | release-0.14.23 | Factorio headless server stable release v0.14.23 |
 | release-0.14.22 | Factorio headless server stable release v0.14.22 |
-| release-0.14.21 | Factorio headless server stable release v0.14.21 |
 
 ## Important notes
 
@@ -19,8 +19,11 @@
 
 ---
 
-Changes 2017-07-25:
-* Updated unstable tag for experimental release v0.15.31
+Changes 2017-07-27:
+* Updated latest tag to release v0.15.31
+* Factorio devs moved v0.15 from experimental to stable with no announcement that I can find
+* **Definitely make a backup of your v0.14.X saves before upgrading. A lot has changed and may break existing maps/saves.**
+* Tagged release-0.15.31
 * https://forums.factorio.com/viewtopic.php?t=51241
 
 ---
