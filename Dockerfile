@@ -11,7 +11,7 @@ COPY ./factorio.crt /opt/
 RUN apk --update add bash curl && \
     curl -sSL --cacert /opt/factorio.crt https://www.factorio.com/get-download/$VERSION/headless/linux64 -o /tmp/factorio_headless_x64_$VERSION.tar.xz && \
     tar -xJf /tmp/factorio_headless_x64_$VERSION.tar.xz && \
-    rm /tmp/factorio_headless_x64_$VERSION.tar.gz && \
+    rm /tmp/factorio_headless_x64_$VERSION.tar.xz && \
     apk del curl
 
 RUN mkdir /opt/factorio/config
