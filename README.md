@@ -19,6 +19,13 @@
 
 ---
 
+Changes 2017-07-29:
+* Collapsed github multi-branch setup in to subfolders under master to simplify future updates
+* Updated Docker hub configuration to reflect github changes
+* All versions remain unchanged, no other changes of note
+
+---
+
 Changes 2017-07-27:
 * Updated latest tag to release v0.15.31
 * Factorio devs moved v0.15 from experimental to stable with no announcement that I can find
