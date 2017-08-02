@@ -8,32 +8,29 @@
 | Tag | Description |
 | --- | --- |
 | latest | Factorio headless server stable release - v0.15.31 as of 2017-07-25 |
-| unstable | Factorio headless server experimental release - v0.15.31 as of 2017-07-25 |
+| experimental | Factorio headless server experimental release - v0.15.32 as of 2017-08-02 |
 | release-0.15.31 | Factorio headless server stable release v0.15.31 |
 | release-0.14.23 | Factorio headless server stable release v0.14.23 |
 | release-0.14.22 | Factorio headless server stable release v0.14.22 |
 
-## Important notes
+## Changes:
 
-**Always stop the existing container and make a backup copy of your Factorio data before installing newer images.**
+2017-08-02:
+* Rename "unstable" tag to "experimental"
+* Updated experimental tag to Factorio v0.15.32
+* https://forums.factorio.com/51505
 
 ---
 
-Changes 2017-07-29:
+2017-07-29:
 * Collapsed github multi-branch setup in to subfolders under master to simplify future updates
 * Updated Docker hub configuration to reflect github changes
 * All versions remain unchanged, no other changes of note
 
 ---
 
-Changes 2017-07-27:
-* Updated latest tag to release v0.15.31
-* Factorio devs moved v0.15 from experimental to stable with no announcement that I can find
-* **Definitely make a backup of your v0.14.X saves before upgrading. A lot has changed and may break existing maps/saves.**
-* Tagged release-0.15.31
-* https://forums.factorio.com/viewtopic.php?t=51241
-
----
+**Always stop the existing container and make a backup copy of your Factorio data before installing newer images.**
+**Make a backup of your v0.14.X saves before upgrading to v0.15.X. A lot has changed and may break existing maps/saves.**
 
 ## Usage
 
