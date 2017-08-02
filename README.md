@@ -11,7 +11,6 @@
 | experimental | Factorio headless server experimental release - v0.15.32 as of 2017-08-02 |
 | release-0.15.31 | Factorio headless server stable release v0.15.31 |
 | release-0.14.23 | Factorio headless server stable release v0.14.23 |
-| release-0.14.22 | Factorio headless server stable release v0.14.22 |
 
 ## Changes:
 
@@ -19,7 +18,7 @@
 * Rename "unstable" tag to "experimental"
 * Updated experimental tag to Factorio v0.15.32
 * https://forums.factorio.com/51505
-
+* Deleted old release-0.14.22 tag
 ---
 
 2017-07-29:
