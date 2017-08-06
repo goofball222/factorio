@@ -14,17 +14,18 @@
 
 ## Changes:
 
+2017-08-06:
+* Updated factorio_launch.sh to use RCON.pwd file in `/opt/factorio/config`
+* If `/opt/factorio/config/RCON.pwd' is not found a random password will be generated and saved in it.
+* All versions remain unchanged, no other changes of note
+
+---
+
 2017-08-02:
 * Rename "unstable" tag to "experimental"
 * Updated experimental tag to Factorio v0.15.32
 * https://forums.factorio.com/51505
 * Deleted old release-0.14.22 tag
----
-
-2017-07-29:
-* Collapsed github multi-branch setup in to subfolders under master to simplify future updates
-* Updated Docker hub configuration to reflect github changes
-* All versions remain unchanged, no other changes of note
 
 ---
 
@@ -69,5 +70,4 @@ $ docker run --name factorio -d -p 34197:34197/udp -p 27015:27015/tcp \
 
 During the first launch of the container the server-settings.json and map-gen-settings.json config files will be populated with the Factorio sample/defaults if they don't already exist. It is highly recommended to edit these files and relaunch the container afterwards or provide pre-setup copies in the config directory prior to first launch. The config sample files are available in the headless server tar.gz file in the "data" folder. The container will also generate a default map / save.zip in the saves folder if one is not found on launch.
 
-The RCON password is regenerated randomly each time the container is started. It can be found at the start of the container log file.
-
+The RCON password is loaded from `/opt/factorio/config/RCON.pwd` each time the container is started. If that file is not present a random RCON password will be generated and saved in it. The active RCON password can also be found at the start of the container log file at each launch.

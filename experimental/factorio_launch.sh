@@ -1,4 +1,5 @@
 #!/bin/bash
+# Version 20170806-01
 
 # Options.
 BINDIR="/opt/factorio/bin"
@@ -13,12 +14,19 @@ FACTORIO_CMD="${BINDIR}/x64/factorio"
 # Setting rcon-port option
 FACTORIO_CMD="$FACTORIO_CMD --rcon-port $FACTORIO_RCON_PORT"
 
-# Setting rcon password option
-if [ -z $FACTORIO_RCON_PASSWORD ]
+# Check for RCON password file, generate random and set if doesn't exist 
+if [ ! -f "${CONFIGDIR}/RCON.pwd" ];
   then
+    echo "# No RCON.pwd found in ${CONFIGDIR}, generating random"
     FACTORIO_RCON_PASSWORD=$(cat /dev/urandom | tr -dc 'a-f0-9' | head -c16)
+    echo $FACTORIO_RCON_PASSWORD > ${CONFIGDIR}/RCON.pwd
+    echo "# RCON password is '$FACTORIO_RCON_PASSWORD'"
+  else
+    echo "# Using existing RCON.pwd found in ${CONFIGDIR}"
+    FACTORIO_RCON_PASSWORD=$(cat ${CONFIGDIR}/RCON.pwd)
     echo "# RCON password is '$FACTORIO_RCON_PASSWORD'"
 fi
+
 FACTORIO_CMD="$FACTORIO_CMD --rcon-password $FACTORIO_RCON_PASSWORD"
 
 # Copy example configs to CONFIGDIR
