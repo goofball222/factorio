@@ -8,11 +8,17 @@
 | Tag | Description |
 | --- | --- |
 | latest | Factorio headless server stable release - v0.15.31 as of 2017-07-25 |
-| experimental | Factorio headless server experimental release - v0.15.32 as of 2017-08-02 |
+| experimental | Factorio headless server experimental release - v0.15.33 as of 2017-08-09 |
 | release-0.15.31 | Factorio headless server stable release v0.15.31 |
 | release-0.14.23 | Factorio headless server stable release v0.14.23 |
 
 ## Changes:
+
+2018-08-09:
+* Updated experimental tag to Factorio v0.15.33
+* https://forums.factorio.com/51695
+
+---
 
 2017-08-06:
 * Updated factorio_launch.sh to use RCON.pwd file in `/opt/factorio/config`
@@ -23,9 +29,6 @@
 
 2017-08-02:
 * Rename "unstable" tag to "experimental"
-* Updated experimental tag to Factorio v0.15.32
-* https://forums.factorio.com/51505
-* Deleted old release-0.14.22 tag
 
 ---
 
