@@ -1,0 +1,87 @@
+#!/usr/bin/env bash
+# Init script for Factorio headless server Docker container
+# License: Apache-2.0
+# Github: https://github.com/goofball222/factorio.git
+# Script version: 0.1.2
+# Last updated date: 2017-08-15
+
+[ "$DEBUG" == 'true' ] && set -x
+
+SCRIPT_VERSION="0.1.2"
+
+echo "$(date -Iseconds) factorio-init script version ${SCRIPT_VERSION} startup."
+
+# Options.
+BASEDIR="/opt/factorio"
+BINDIR=${BASEDIR}/bin
+CONFIGDIR=${BASEDIR}/config
+DATADIR=${BASEDIR}/data
+SAVEDIR=${BASEDIR}/saves
+
+# Set initial command
+FACTORIO=${BINDIR}/x64/factorio
+
+FACTORIO_RCON_PORT="27015"
+
+FACTORIO_OPTS="${FACTORIO_OPTS}"
+
+FACTORIO_OPTS="${FACTORIO_OPTS} --rcon-port ${FACTORIO_RCON_PORT}"
+
+if [ ! -z "${FACTORIO_RCON_PASSWORD}" ]; then
+  echo "$(date -Iseconds) Using RCON password found in ENV"
+  FACTORIO_RCON_PASSWORD=${FACTORIO_RCON_PASSWORD}
+else
+  # Check for RCON password file, generate random and set if doesn't exist 
+  if [ ! -f "${CONFIGDIR}/RCON.pwd" ];
+    then
+      echo "$(date -Iseconds) No RCON.pwd found in ${CONFIGDIR}, generating random"
+      FACTORIO_RCON_PASSWORD=$(cat /dev/urandom | tr -dc 'a-f0-9' | head -c16)
+      echo ${FACTORIO_RCON_PASSWORD} > ${CONFIGDIR}/RCON.pwd
+    else
+      echo "$(date -Iseconds) Using existing RCON.pwd found in ${CONFIGDIR}"
+      FACTORIO_RCON_PASSWORD=$(cat ${CONFIGDIR}/RCON.pwd)
+  fi
+fi
+
+echo "$(date -Iseconds) RCON password is '${FACTORIO_RCON_PASSWORD}'"
+FACTORIO_OPTS="${FACTORIO_OPTS} --rcon-password $FACTORIO_RCON_PASSWORD"
+
+# Copy example configs to CONFIGDIR
+cp "${DATADIR}/server-settings.example.json" "${CONFIGDIR}/server-settings.example.json"
+echo "$(date -Iseconds) Copied latest server-settings.example.json to ${CONFIGDIR}"
+cp "${DATADIR}/map-gen-settings.example.json" "${CONFIGDIR}/map-gen-settings.example.json"
+echo "$(date -Iseconds) Copied latest map-gen-settings.example.json to ${CONFIGDIR}"
+
+# Copy example configs to working configuration if they don't exist
+if [ ! -f "${CONFIGDIR}/server-settings.json" ];
+  then
+    echo "$(date -Iseconds) No server-settings.json found in ${CONFIGDIR}, copying from example"
+    cp "${DATADIR}/server-settings.example.json" "${CONFIGDIR}/server-settings.json"
+  else
+    echo "$(date -Iseconds) Using existing server-settings.json found in ${CONFIGDIR}"
+fi
+if [ ! -f "${CONFIGDIR}/map-gen-settings.json" ];
+  then
+    echo "$(date -Iseconds) No map-gen-settings.json found in ${CONFIGDIR}, copying from example"
+    cp "${DATADIR}/map-gen-settings.example.json" "${CONFIGDIR}/map-gen-settings.json"
+  else
+    echo "$(date -Iseconds) Using existing map-gen-settings.json found in ${CONFIGDIR}"
+fi
+
+# Check for existing map / save.zip, use if found. Generate new with settings if not.
+if [ ! -f "${SAVEDIR}/save.zip" ];
+  then
+    echo "$(date -Iseconds) Creating new map / save.zip in ${SAVEDIR} with settings from ${CONFIGDIR}/map-gen-settings.json"
+    ${FACTORIO} --create "${SAVEDIR}/save.zip" --map-gen-settings "${CONFIGDIR}/map-gen-settings.json"
+  else
+    echo "$(date -Iseconds) Using latest map / save.zip found in ${SAVEDIR}"
+fi
+
+FACTORIO_OPTS="${FACTORIO_OPTS} --start-server-load-latest --server-settings ${CONFIGDIR}/server-settings.json"
+
+echo "$(date -Iseconds) Launching Factiorio headless server"
+
+# Closing stdin
+exec 0<&-
+
+exec ${FACTORIO} ${FACTORIO_OPTS}

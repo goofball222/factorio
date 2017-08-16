@@ -1,12 +1,24 @@
 FROM frolvlad/alpine-glibc:latest
+MAINTAINER The Goofball "goofball222@gmail.com"
 
-MAINTAINER Goofball222 <goofball222@gmail.com>
+ARG BUILD_DATE
+ARG VCS_REF
+ARG VERSION
+
+LABEL org.label-schema.vendor=goofball222 \
+      org.label-schema.url="https://github.com/goofball222/factorio" \
+      org.label-schema.name="Factorio Headless Server" \
+      org.label-schema.license="Apache-2.0" \
+      org.label-schema.version=$VERSION \
+      org.label-schema.vcs-url="https://github.com/goofball222/factorio" \
+      org.label-schema.vcs-ref=$VCS_REF \
+      org.label-schema.build-date=$BUILD_DATE \
+      org.label-schema.schema-version="1.0"
+
 
 WORKDIR /opt
 
-ENV VERSION=0.15.33
-
-COPY ./factorio.crt /opt/
+ADD factorio.crt /opt/
 
 RUN apk --update add bash curl && \
     curl -sSL --cacert /opt/factorio.crt https://www.factorio.com/get-download/$VERSION/headless/linux64 -o /tmp/factorio_headless_x64_$VERSION.tar.xz && \
@@ -16,10 +28,15 @@ RUN apk --update add bash curl && \
 
 RUN mkdir /opt/factorio/config
 
-COPY ./factorio_launch.sh /opt/
+ENV DEBUG=false \
+    FACTORIO_RCON_PASSWORD= \
+    FACTORIO_OPTS=
 
-VOLUME ["/opt/factorio/config", "/opt/factorio/mods", "/opt/factorio/saves"]
+ADD factorio-init /opt/
+RUN chmod +x /opt/factorio-init
 
 EXPOSE 34197/udp 27015/tcp
 
-CMD ["./factorio_launch.sh"]
+VOLUME ["/opt/factorio/config", "/opt/factorio/mods", "/opt/factorio/saves"]
+
+ENTRYPOINT ["/opt/factorio-init"]
