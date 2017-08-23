@@ -62,7 +62,7 @@ $ docker run --init --name factorio -d \
 ```
 ---
 
-**Example `docker-compose.yml` file for use with [Docker Compose](https://docs.docker.com/compose/)**
+**Example [`docker-compose.yml`](https://raw.githubusercontent.com/goofball222/factorio/master/docker-compose.yml) file for use with [Docker Compose](https://docs.docker.com/compose/)**
 
 ```
 version: '2.2'
