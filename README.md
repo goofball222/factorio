@@ -6,15 +6,15 @@
 | Tag | Factorio Version | Description | Release Date |
 | --- | :---: | --- | :---: |
 | [latest](https://github.com/goofball222/factorio/blob/master/stable/Dockerfile) | [0.15.33](https://forums.factorio.com/51695) | Factorio headless server stable release | 2017-08-14 |
-| [experimental](https://github.com/goofball222/factorio/blob/master/experimental/Dockerfile) | [0.15.33](https://forums.factorio.com/51695) | Factorio headless server experimental release | 2017-08-09 |
+| [experimental](https://github.com/goofball222/factorio/blob/master/experimental/Dockerfile) | [0.15.34](https://forums.factorio.com/52108) | Factorio headless server experimental release | 2017-08-23 |
 | [release-0.15.33](https://github.com/goofball222/factorio/releases/tag/0.15.31) | [0.15.33](https://forums.factorio.com/51695) | Factorio headless server stable static release | 2017-08-14 |
 | [release-0.14.23](https://github.com/goofball222/factorio/releases/tag/0.14.23) | [0.14.23](https://forums.factorio.com/44504) | Factorio headless server stable static release | 2017-04-24 |
 
 ---
 
-* **2017-08-15:**
-    * Moved "Changes" to [GitHub CHANGELOG.md](https://github.com/goofball222/factorio/blob/master/CHANGELOG.md) file.
-    * Please report any bugs and/or issues on GitHub: https://github.com/goofball222/factorio/issues
+* [Recent changes, see: GitHub CHANGELOG.md](https://github.com/goofball222/factorio/blob/master/CHANGELOG.md)
+* [Report any bugs, issues or feature requests on GitHub](https://github.com/goofball222/factorio/issues)
+
 ---
 
 **Always stop the existing container and make a backup copy of your Factorio data before installing newer images.**
@@ -29,8 +29,9 @@ Logs are available directly from the running container, IE: "docker logs factori
 
 **The most basic way to launch this container is as follows:**
 ```bash
-$ docker run --name factorio -d -p 34197:34197/udp \
-	goofball222/factorio
+$ docker run --init --name factorio -d \
+    -p 34197:34197/udp \
+    goofball222/factorio
 ```
 
 **The container exposes two ports:**
@@ -52,15 +53,36 @@ To have the container store the config, mods and saves (recommended for persiste
 and expose the RCON port for admin, run:
 
 ```bash
-$ docker run --name factorio -d -p 34197:34197/udp -p 27015:27015/tcp \
-	-v /path/to/config:/opt/factorio/config \
-	-v /path/to/mods:/opt/factorio/mods \
-	-v /path/to/saves:/opt/factorio/saves \
+$ docker run --init --name factorio -d \
+    -p 27015:27015 -p 34197:34197/udp \
+    -v /DATA_VOLUME/factorio/config:/opt/factorio/config \
+    -v /DATA_VOLUME/factorio/mods:/opt/factorio/mods \
+    -v /DATA_VOLUME/factorio/saves:/opt/factorio/saves \
 	goofball222/factorio
 ```
+---
 
+**Example `docker-compose.yml` file for use with [Docker Compose](https://docs.docker.com/compose/)**
+
+```
+version: '2.2'
+services:
+  factorio:
+    image: "goofball222/factorio:latest"
+    init: true
+    ports:
+     - "27015:27015"
+     - "34197:34197/udp"
+    volumes:
+     - /DATA_VOLUME/factorio/config:/opt/factorio/config
+     - /DATA_VOLUME/factorio/mods:/opt/factorio/mods
+     - /DATA_VOLUME/factorio/saves:/opt/factorio/saves
+```
 ---
 
 During the first launch of the container the server-settings.json and map-gen-settings.json config files will be populated with the Factorio sample/defaults if they don't already exist. It is highly recommended to edit these files and relaunch the container afterwards or provide pre-setup copies in the config directory prior to first launch. The config sample files are available in the headless server tar.gz file in the "data" folder. The container will also generate a default map / save.zip in the saves folder if one is not found on launch.
 
 The RCON password can be set via the FACTORIO_RCON_PASSWORD ENV flag or loaded from `/opt/factorio/config/RCON.pwd` each time the container is started. If the FACTORIO_RCON_PASSWORD ENV var is not set or the RCON.pwd file is not present a random RCON password will be generated and saved in `/opt/factorio/config/RCON.pwd`. The active RCON password can also be found at the start of the container log file at each launch.
+
+[//]: # (Licensed under the Apache 2.0 license)
+[//]: # (Copyright 2017 The Goofball - goofball222@gmail.com)

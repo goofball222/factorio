@@ -1,3 +1,9 @@
+* **2017-08-23:**
+    * Change experimental VERSION to [0.15.34](https://forums.factorio.com/52108)
+    * Add docker-compose.yml example
+    * Update documentation to recommend use of --init flag for container run/term signal handling
+    * Update Makefiles to use --init flag for "make start"
+---
 * **2017-08-15:**
     * Where possible switched from 2 spaces to 4 spaces for indent, readability.
     * Add clean process to Makefiles
@@ -20,7 +26,7 @@
 ---
 * **2017-08-06:**
     * Updated factorio_launch.sh to use RCON.pwd file in `/opt/factorio/config`
-    * If `/opt/factorio/config/RCON.pwd' is not found a random password will be generated and saved in it.
+    * If `/opt/factorio/config/RCON.pwd' is not found a random password will be generated and saved in it
     * All versions remain unchanged, no other changes of note
 ---
 * **2017-08-02:**

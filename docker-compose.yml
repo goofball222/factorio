@@ -1,0 +1,12 @@
+version: '2.2'
+services:
+  factorio:
+    image: "goofball222/factorio:latest"
+    init: true
+    ports:
+     - "27015:27015"
+     - "34197:34197/udp"
+    volumes:
+     - /DATA_VOLUME/factorio/config:/opt/factorio/config
+     - /DATA_VOLUME/factorio/mods:/opt/factorio/mods
+     - /DATA_VOLUME/factorio/saves:/opt/factorio/saves
