@@ -3,12 +3,12 @@
 # Init script for Factorio headless server Docker container
 # License: Apache-2.0
 # Github: https://github.com/goofball222/factorio.git
-# Script version: 0.1.4
-# Last updated date: 2017-08-16
+# Script version: 0.1.5
+# Last updated date: 2017-09-02
 
 [ "$DEBUG" == 'true' ] && set -x
 
-SCRIPT_VERSION="0.1.4"
+SCRIPT_VERSION="0.1.5"
 
 echo "$(date -Iseconds) factorio-init script version ${SCRIPT_VERSION} startup."
 
@@ -25,8 +25,6 @@ FACTORIO=${BINDIR}/x64/factorio
 FACTORIO_RCON_PORT="27015"
 
 FACTORIO_OPTS="${FACTORIO_OPTS}"
-
-FACTORIO_OPTS="${FACTORIO_OPTS} --rcon-port ${FACTORIO_RCON_PORT}"
 
 if [ ! -z "${FACTORIO_RCON_PASSWORD}" ];
     then
@@ -46,7 +44,7 @@ if [ ! -z "${FACTORIO_RCON_PASSWORD}" ];
 fi
 
 echo "$(date -Iseconds) RCON password is '${FACTORIO_RCON_PASSWORD}'"
-FACTORIO_OPTS="${FACTORIO_OPTS} --rcon-password $FACTORIO_RCON_PASSWORD"
+FACTORIO_OPTS="${FACTORIO_OPTS} --rcon-password $FACTORIO_RCON_PASSWORD --rcon-port ${FACTORIO_RCON_PORT}"
 
 # Copy example configs to CONFIGDIR
 cp "${DATADIR}/server-settings.example.json" "${CONFIGDIR}/server-settings.example.json"

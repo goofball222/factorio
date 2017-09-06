@@ -1,4 +1,9 @@
 * **2017-08-23:**
+    * Bump stable VERSION to [0.15.34](https://forums.factorio.com/52108)
+        * Devs silently moved this from experimental to stable, not sure of exact date
+    * Tag release-0.15.34
+---
+* **2017-08-23:**
     * Change experimental VERSION to [0.15.34](https://forums.factorio.com/52108)
     * Add docker-compose.yml example
     * Update documentation to recommend use of --init flag for container run/term signal handling
