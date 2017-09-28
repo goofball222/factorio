@@ -53,6 +53,8 @@ $ docker run --name factorio -d \
     goofball222/factorio
 ```
 
+---
+
 **Recommended run command line -**
 
 Have the container store the config, mods and saves on a local file-system or in a specific, known data volume (recommended for persistence and troubleshooting) and expose the RCON port for admin:
