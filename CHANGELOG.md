@@ -1,3 +1,30 @@
+* **2017-09-28:**
+    * Bump experimental VERSION to [0.15.35](https://forums.factorio.com/53019)
+    * Rename factorio-init to docker-entrypoint.sh, move to root/usr/local/bin
+    * Remove factorio.crt
+    * docker-entrypoint.sh changes:
+        * Change functionality to run application as limited user for security
+        * Add variables for changing baked-in factorio user/group UID/GID, FACTORIO_GID, FACTORIO_UID
+        * Add functionality to ensure correct file permissions/ownership for data, mods, configs, etc.
+        * Add variable RUNAS_UID0 to allow to revert to running as root/UID=0 if needed
+        * Add termination signal handling and shutdown routine
+        * Functionize logging stamper
+        * Add support for running container with non-default CMD
+    * Dockerfile changes:
+        * Change WORKDIR to /opt/factorio
+        * Add FACTORIO_GID=999 and FACTORIO_UID=999 defaults
+        * Add RUNAS_UID0=false default
+        * Switch to COPY root folder instead of individual files
+        * Add "set -x" and reformat RUN section for clarity
+        * Add packages shadow & su-exec to support running as non-UID=0 user
+        * Add -C /opt to tar to force extract of factorio folder to correct location
+        * Create volume folders via bash to ensure they're chowned to container factorio UID/GID
+        * Add 'chown -R factorio:factorio /opt/factorio'
+        * Change ENTRYPOINT to use renamed docker-entrypoint.sh
+        * Add CMD "factorio" to set default docker-entrypoint.sh action
+    * docker-compose.yml moved to examples folder, updated to remove init and switch back to version 2
+    * README.md updates to document new variables and functionality
+---
 * **2017-08-23:**
     * Bump stable VERSION to [0.15.34](https://forums.factorio.com/52108)
         * Devs silently moved this from experimental to stable, not sure of exact date

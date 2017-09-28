@@ -1,8 +1,7 @@
-version: '2.2'
+version: '2'
 services:
   factorio:
     image: "goofball222/factorio:latest"
-    init: true
     ports:
      - "27015:27015"
      - "34197:34197/udp"

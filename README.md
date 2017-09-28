@@ -6,7 +6,7 @@
 | Tag | Factorio Version | Description | Release Date |
 | --- | :---: | --- | :---: |
 | [latest](https://github.com/goofball222/factorio/blob/master/stable/Dockerfile) | [0.15.34](https://forums.factorio.com/52108) | Factorio headless server stable release | 2017-09-06 |
-| [experimental](https://github.com/goofball222/factorio/blob/master/experimental/Dockerfile) | [0.15.34](https://forums.factorio.com/52108) | Factorio headless server experimental release | 2017-08-23 |
+| [experimental](https://github.com/goofball222/factorio/blob/master/experimental/Dockerfile) | [0.15.35](https://forums.factorio.com/53019) | Factorio headless server experimental release | 2017-09-28 |
 | [release-0.15.34](https://github.com/goofball222/factorio/releases/tag/0.15.34) | [0.15.34](https://forums.factorio.com/51695) | Factorio headless server stable static release | 2017-08-14 |
 | [release-0.14.23](https://github.com/goofball222/factorio/releases/tag/0.14.23) | [0.14.23](https://forums.factorio.com/44504) | Factorio headless server stable static release | 2017-04-24 |
 
@@ -17,43 +17,48 @@
 
 ---
 
-**Always stop the existing container and make a backup copy of your Factorio data before installing newer images.**
+### **ALL BUILDS CREATED AFTER 2017-09-28:** For attack surface reduction and increased security the container is built to run the Factorio headless server with an internal user & group `factorio` having a default UID & GID of 999.
+The container will attempt to adjust the permissions on mapped volumes and data before dropping privileges to start the Factorio server process.
+If the container is being run with a different Docker --user setting permissions may need to be fixed manually.
+
+IE: `chown -R 999:999 /DATA_VOLUME/factorio/{config,mods,saves}`
+
+A custom UID and GID can be configured for the container internal factorio user and group. For more information see the "Environment variables" section in this document.
+
+---
+
+**Always stop the existing container and make a VERIFIED backup copy of your Factorio data before installing newer images.**
 **Make a backup of your v0.14.X saves before upgrading to v0.15.X. A lot has changed and may break existing maps/saves.**
+
+---
 
 ## Usage
 
-This container is configured to look for the save.zip file in `/opt/factorio/saves`,
-mods in `/opt/factorio/mods`, and server/map generation settings in `/opt/factorio/config`.
-
-Logs are available directly from the running container, IE: "docker logs factorio"
-
-**The most basic way to launch this container is as follows:**
-```bash
-$ docker run --init --name factorio -d \
-    -p 34197:34197/udp \
-    goofball222/factorio
-```
+**The container exposes three volumes:**
+* `/opt/factorio/config` - Factorio headless server config files
+* `/opt/factorio/mods` - Factorio mods default directory for non-standard add-ins
+* `/opt/factorio/saves` - Factorio save/map file storage location
 
 **The container exposes two ports:**
 * `27015/tcp`: Factorio RCON port
 * `34197/udp`: Factorio default server port
 
-**The container exposes three volumes:**
-* `/opt/factorio/config` - Factorio headless server config files
-* `/opt/factorio/mods` - Factorio mods default directory for non-standard add-ins
-* `/opt/factorio/saves` - Factorio save/map file default storage location
+---
 
-**The container has 3 ENV (-e/--env) variables that can be set:**
-* `DEBUG` sets "-x" in factorio-init for debugging, defaults to false. Set to true to activate.
-* `FACTORIO_RCON_PASSWORD` sets the RCON password.
-* `FACTORIO_OPTS` feed additional command line options to factorio server executable at runtime.
-        
-
-To have the container store the config, mods and saves (recommended for persistence)
-and expose the RCON port for admin, run:
+**The most basic way to run this container:**
 
 ```bash
-$ docker run --init --name factorio -d \
+$ docker run --name factorio -d \
+    -p 34197:34197/udp \
+    goofball222/factorio
+```
+
+**Recommended run command line -**
+
+Have the container store the config, mods and saves on a local file-system or in a specific, known data volume (recommended for persistence and troubleshooting) and expose the RCON port for admin:
+
+```bash
+$ docker run --name factorio -d \
     -p 27015:27015 -p 34197:34197/udp \
     -v /DATA_VOLUME/factorio/config:/opt/factorio/config \
     -v /DATA_VOLUME/factorio/mods:/opt/factorio/mods \
@@ -62,22 +67,27 @@ $ docker run --init --name factorio -d \
 ```
 ---
 
-**Example [`docker-compose.yml`](https://raw.githubusercontent.com/goofball222/factorio/master/docker-compose.yml) file for use with [Docker Compose](https://docs.docker.com/compose/)**
+**Logs are available directly from the running container, IE: "docker logs factorio"**
 
-```
-version: '2.2'
-services:
-  factorio:
-    image: "goofball222/factorio:latest"
-    init: true
-    ports:
-     - "27015:27015"
-     - "34197:34197/udp"
-    volumes:
-     - /DATA_VOLUME/factorio/config:/opt/factorio/config
-     - /DATA_VOLUME/factorio/mods:/opt/factorio/mods
-     - /DATA_VOLUME/factorio/saves:/opt/factorio/saves
-```
+---
+
+**Environment variables:**
+
+| Variable | Default | Description |
+| :--- | :---: | --- |
+| `DEBUG` | ***false*** | Set to *true* for extra container verbosity for debugging |
+| `FACTORIO_RCON_PASSWORD` | ***unset*** | Specifiy the RCON password |
+| `FACTORIO_OPTS` | ***unset*** | Add custom command line options to factorio server executable at runtime |
+| `FACTORIO_GID` | ***999*** | Specifies the GID for the container internal factorio group (used for file ownership) |
+| `FACTORIO_UID` | ***999*** | Specifies the UID for the container internal factorio user (used for process and file ownership) |
+| `RUNAS_UID0` | ***false*** | Set to *true* to force the container to run the Factorio server process as UID=0 (root) - **NB/IMPORTANT:** running with this set to "true" is insecure |
+
+---
+
+**[Docker Compose](https://docs.docker.com/compose/):**
+
+[Example basic `docker-compose.yml` file](https://raw.githubusercontent.com/goofball222/factorio/master/examples/docker-compose.yml)
+
 ---
 
 During the first launch of the container the server-settings.json and map-gen-settings.json config files will be populated with the Factorio sample/defaults if they don't already exist. It is highly recommended to edit these files and relaunch the container afterwards or provide pre-setup copies in the config directory prior to first launch. The config sample files are available in the headless server tar.gz file in the "data" folder. The container will also generate a default map / save.zip in the saves folder if one is not found on launch.

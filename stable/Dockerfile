@@ -16,30 +16,35 @@ LABEL \
     org.label-schema.license="Apache-2.0" \
     org.label-schema.schema-version="1.0"
 
-
-WORKDIR /opt
-
-ADD factorio.crt /opt/
-
-RUN \
-    apk --update add bash curl && \
-    curl -sSL --cacert /opt/factorio.crt https://www.factorio.com/get-download/$VERSION/headless/linux64 -o /tmp/factorio_headless_x64_$VERSION.tar.xz && \
-    tar -xJf /tmp/factorio_headless_x64_$VERSION.tar.xz && \
-    rm /tmp/factorio_headless_x64_$VERSION.tar.xz && \
-    apk del curl
-
-RUN mkdir /opt/factorio/config
-
 ENV \
     DEBUG=false \
     FACTORIO_RCON_PASSWORD= \
-    FACTORIO_OPTS=
+    FACTORIO_OPTS= \
+    FACTORIO_GID=999 \
+    FACTORIO_UID=999 \
+    RUNAS_UID0=false
 
-ADD factorio-init /opt/
-RUN chmod +x /opt/factorio-init
+WORKDIR /opt/factorio
+
+COPY root /
+
+RUN \
+    set -x \
+    && delgroup ping \
+    && addgroup -g $FACTORIO_GID factorio \
+    && adduser -D -G factorio -u $FACTORIO_UID factorio \
+    && apk --update add bash curl shadow su-exec \
+    && curl -sSL https://www.factorio.com/get-download/$VERSION/headless/linux64 -o /tmp/factorio_headless_x64_$VERSION.tar.xz \
+    && tar -xJf /tmp/factorio_headless_x64_$VERSION.tar.xz -C /opt \
+    && rm /tmp/factorio_headless_x64_$VERSION.tar.xz \
+    && apk del curl \
+    && bash -c 'mkdir -p {config,mods,saves}' \
+    && chown -R factorio:factorio /opt/factorio
 
 EXPOSE 34197/udp 27015/tcp
 
 VOLUME ["/opt/factorio/config", "/opt/factorio/mods", "/opt/factorio/saves"]
 
-ENTRYPOINT ["/opt/factorio-init"]
+ENTRYPOINT ["docker-entrypoint.sh"]
+
+CMD ["factorio"]
