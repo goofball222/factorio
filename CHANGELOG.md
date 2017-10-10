@@ -1,3 +1,6 @@
+* **2017-10-10:**
+    * Bump experimental VERSION to [0.15.36](https://forums.factorio.com/53280)
+---
 * **2017-09-28:**
     * Bump experimental VERSION to [0.15.35](https://forums.factorio.com/53019)
     * Rename factorio-init to docker-entrypoint.sh, move to root/usr/local/bin
