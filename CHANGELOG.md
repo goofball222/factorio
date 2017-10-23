@@ -1,3 +1,10 @@
+* **2017-10-23:**
+    * Add GitHub docs folder
+        * Move CONTRIBUTING.md from root
+        * Create ISSUE_TEMPLATE.md
+        * Create PULL_REQUEST_TEMPLATE.md
+    * Update .dockerignore to exclude docs folder
+---
 * **2017-10-17:**
     * Bump stable VERSION to [0.15.37](https://forums.factorio.com/53453)
     * Bump experimental VERSION to [0.15.37](https://forums.factorio.com/53453)
