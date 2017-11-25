@@ -1,3 +1,6 @@
+* **2017-11-24:**
+    * Bump experimental VERSION to [0.15.38](https://forums.factorio.com/54181)
+---
 * **2017-10-23:**
     * Add GitHub docs folder
         * Move CONTRIBUTING.md from root
