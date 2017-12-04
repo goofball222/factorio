@@ -1,3 +1,7 @@
+* **2017-12-04:**
+    * Bump stable VERSION to [0.15.40](https://forums.factorio.com/54307)
+    * Tag release-0.15.40
+---
 * **2017-11-30:**
     * Bump experimental VERSION to [0.15.40](https://forums.factorio.com/54307)
 ---
