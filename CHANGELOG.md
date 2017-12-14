@@ -1,3 +1,6 @@
+* **2017-12-14:**
+    * Bump experimental VERSION to [0.16.2](https://forums.factorio.com/54754)
+---
 * **2017-12-13:**
     * Bump experimental VERSION to [0.16.0](https://forums.factorio.com/54538)
 ---
