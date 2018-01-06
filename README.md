@@ -17,8 +17,8 @@
 
 ---
 
-### **ALL BUILDS CREATED AFTER 2017-09-28:** For attack surface reduction and increased security the container is built to run the Factorio headless server with an internal user & group `factorio` having a default UID & GID of 999.
-The container will attempt to adjust the permissions on mapped volumes and data before dropping privileges to start the Factorio server process.
+**AS OF 2017-09-28:** For security/attack surface reduction the container is configured to run the Factorio headless server with an internal user & group `factorio` having a pre-set UID & GID of 999.
+The container will attempt to adjust permissions on mapped volumes and data to match before dropping privileges to start the Factorio server processes.
 If the container is being run with a different Docker --user setting permissions may need to be fixed manually.
 
 IE: `chown -R 999:999 /DATA_VOLUME/factorio/{config,mods,saves}`

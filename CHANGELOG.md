@@ -1,5 +1,6 @@
 * **2018-01-05:**
     * Bump experimental VERSION to [0.16.15](https://forums.factorio.com/56222)
+    * Update README.md formatting and wording
 ---
 * **2018-01-04:**
     * Bump experimental VERSION to [0.16.14](https://forums.factorio.com/56182)
