@@ -5,8 +5,9 @@
 ## Docker tags:
 | Tag | Factorio Version | Description | Release Date |
 | --- | :---: | --- | :---: |
-| [latest](https://github.com/goofball222/factorio/blob/master/stable/Dockerfile) | [0.15.40](https://forums.factorio.com/54307) | Factorio headless server stable release | 2017-12-04 |
+| [latest](https://github.com/goofball222/factorio/blob/master/stable/Dockerfile) | [0.16.36](https://forums.factorio.com/59134) | Factorio headless server stable release | 2018-03-28 |
 | [experimental](https://github.com/goofball222/factorio/blob/master/experimental/Dockerfile) | [0.16.35](https://forums.factorio.com/59005) | Factorio headless server experimental release | 2018-03-26 |
+| [release-0.16.36](https://github.com/goofball222/factorio/releases/tag/0.16.36) | [0.16.36](https://forums.factorio.com/59134) | Factorio headless server stable static release | 2018-03-28 |
 | [release-0.15.40](https://github.com/goofball222/factorio/releases/tag/0.15.40) | [0.15.40](https://forums.factorio.com/54307) | Factorio headless server stable static release | 2017-12-04 |
 
 ---
@@ -26,8 +27,7 @@ A custom UID and GID can be configured for the container internal factorio user 
 
 ---
 
-**Always stop the existing container and make a VERIFIED backup copy of your Factorio data before installing newer images.**
-**Make a backup of your v0.14.X saves before upgrading to v0.15.X. A lot has changed and may break existing maps/saves.**
+**Always stop the existing container and make a VERIFIED backup copy of your Factorio save data before installing newer images.**
 
 ---
 

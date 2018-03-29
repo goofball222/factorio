@@ -1,3 +1,7 @@
+* **2018-03-29**
+    * Bump stable VERSION to [0.16.36](https://forums.factorio.com/59134)
+    * Tag stable release 0.16.36
+---
 * **2018-03-26**
     * Bump experimental VERSION to [0.16.35](https://forums.factorio.com/59005)
 ---
