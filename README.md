@@ -96,4 +96,4 @@ During the first launch of the container the server-settings.json and map-gen-se
 The RCON password can be set via the FACTORIO_RCON_PASSWORD ENV flag or loaded from `/opt/factorio/config/RCON.pwd` each time the container is started. If the FACTORIO_RCON_PASSWORD ENV var is not set or the RCON.pwd file is not present a random RCON password will be generated and saved in `/opt/factorio/config/RCON.pwd`. The active RCON password can also be found at the start of the container log file at each launch.
 
 [//]: # (Licensed under the Apache 2.0 license)
-[//]: # (Copyright 2017 The Goofball - goofball222@gmail.com)
+[//]: # (Copyright 2018 The Goofball - goofball222@gmail.com)
