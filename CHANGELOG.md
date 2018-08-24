@@ -4,10 +4,12 @@
         * Change apk commands to stop caching package lists and use virtual for build deps
         * Rework post-build cleanup
         * Add support for RUN_CHOWN flag
+        * Add tzdata package
     * docker-entrypoint.sh
         * Add support for RUN_CHOWN flag
         * Change FACTORIO_GID and FACTORIO_UID to PGID/PUID
     * Update documentation to reflect variable changes
+    * Update build hooks script
 ---
 * **2018-06-19**
     * Bump stable VERSION to [0.16.51](https://forums.factorio.com/61009)
