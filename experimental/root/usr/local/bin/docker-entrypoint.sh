@@ -3,8 +3,8 @@
 # Init script for Factorio headless server Docker container
 # License: Apache-2.0
 # Github: https://github.com/goofball222/factorio.git
-SCRIPT_VERSION="0.2.5"
-# Last updated date: 2017-09-28
+SCRIPT_VERSION="1.0.1"
+# Last updated date: 2018-08-24
 
 set -Eeuo pipefail
 
@@ -19,10 +19,25 @@ log() {
 
 log "INFO - Script version ${SCRIPT_VERSION}"
 
+FACTORIO_GID=${FACTORIO_GID:-}
+FACTORIO_UID=${FACTORIO_UID:-}
+
+if [ ! -z "${FACTORIO_GID}" ]; then
+    log "INFO - FACTORIO_GID is set to '${FACTORIO_GID}'. Please update to the PGID env variable."
+    log "INFO - Automatically converting FACTORIO_GID to PGID."
+    PGID=${FACTORIO_GID}
+fi
+if [ ! -z "${FACTORIO_UID}" ]; then
+    log "INFO - FACTORIO_UID is set to '${FACTORIO_UID}'. Please update to the PUID env variable."
+    log "INFO - Automatically converting FACTORIO_UID to PUID."
+    PUID=${FACTORIO_UID}
+fi
+
 BASEDIR="/opt/factorio"
 BINDIR=${BASEDIR}/bin
 CONFIGDIR=${BASEDIR}/config
 DATADIR=${BASEDIR}/data
+MODDIR=${BASEDIR}/mods
 SAVEDIR=${BASEDIR}/saves
 
 FACTORIO=${BINDIR}/x64/factorio
@@ -32,6 +47,24 @@ FACTORIO_RCON_PORT="27015"
 FACTORIO_OPTS="${FACTORIO_OPTS}"
 
 cd ${BASEDIR}
+
+do_chown() {
+    if [ "${RUN_CHOWN}" == 'false' ]; then
+        if [ ! "$(stat -c %u ${BASEDIR})" = "${PUID}" ] || [ ! "$(stat -c %u ${DATADIR})" = "${PUID}" ] \
+        || [ ! "$(stat -c %u ${MODDIR})" = "${PUID}" ] || [ ! "$(stat -c %u ${SAVEDIR})" = "${PUID}" ]; then
+            log "WARN - Configured PUID doesn't match owner of a required directory. Ignoring RUN_CHOWN=false"
+            log "INFO - Ensuring permissions are correct before continuing - 'chown -R factorio:factorio ${BASEDIR}'"
+            log "INFO - Running recursive 'chown' on Docker overlay2 storage is **really** slow. This may take a bit."
+            chown -R factorio:factorio ${BASEDIR}
+        else
+            log "INFO - RUN_CHOWN set to 'false' - Not running 'chown -R factorio:factorio ${BASEDIR}', assume permissions are right."
+        fi
+    else
+        log "INFO - Ensuring permissions are correct before continuing - 'chown -R factorio:factorio ${BASEDIR}'"
+        log "INFO - Running recursive 'chown' on Docker overlay2 storage is **really** slow. This may take a bit."
+        chown -R factorio:factorio ${BASEDIR}
+    fi
+}
 
 factorio_setup() {
 
@@ -58,16 +91,16 @@ factorio_setup() {
     FACTORIO_OPTS="${FACTORIO_OPTS} --rcon-password $FACTORIO_RCON_PASSWORD --rcon-port ${FACTORIO_RCON_PORT}"
 
     # Copy example configs to CONFIGDIR
-    cp ${DATADIR}/server-settings.example.json ${CONFIGDIR}/server-settings.example.json
+    cp -p ${DATADIR}/server-settings.example.json ${CONFIGDIR}/server-settings.example.json
     log "INFO - Copied latest server-settings.example.json to ${CONFIGDIR}"
-    cp ${DATADIR}/map-gen-settings.example.json ${CONFIGDIR}/map-gen-settings.example.json
+    cp -p ${DATADIR}/map-gen-settings.example.json ${CONFIGDIR}/map-gen-settings.example.json
     log "INFO - Copied latest map-gen-settings.example.json to ${CONFIGDIR}"
 
     # Copy example configs to working configuration if they don't exist
     if [ ! -f "${CONFIGDIR}/server-settings.json" ];
         then
             log "WARN - No server-settings.json found in ${CONFIGDIR}, copying from example"
-            cp ${DATADIR}/server-settings.example.json ${CONFIGDIR}/server-settings.json
+            cp -p ${DATADIR}/server-settings.example.json ${CONFIGDIR}/server-settings.json
         else
             log "INFO - Using existing server-settings.json found in ${CONFIGDIR}"
     fi
@@ -75,7 +108,7 @@ factorio_setup() {
     if [ ! -f "${CONFIGDIR}/map-gen-settings.json" ];
         then
             log "WARN - No map-gen-settings.json found in ${CONFIGDIR}, copying from example"
-            cp ${DATADIR}/map-gen-settings.example.json ${CONFIGDIR}/map-gen-settings.json
+            cp -p ${DATADIR}/map-gen-settings.example.json ${CONFIGDIR}/map-gen-settings.json
         else
             log "INFO - Using existing map-gen-settings.json found in ${CONFIGDIR}"
     fi
@@ -85,25 +118,22 @@ factorio_setup() {
         then
             log "WARN - No save.zip found in ${SAVEDIR}"
             log "INFO - Creating new map / save.zip in ${SAVEDIR} with settings from ${CONFIGDIR}/map-gen-settings.json"
-            ${FACTORIO} --create ${SAVEDIR}/save.zip --map-gen-settings ${CONFIGDIR}/map-gen-settings.json
+            su-exec factorio:factorio ${FACTORIO} --create ${SAVEDIR}/save.zip --map-gen-settings ${CONFIGDIR}/map-gen-settings.json
         else
             log "INFO - Loading save.zip found in ${SAVEDIR}"
     fi
-
-    log "INFO - Ensuring file permissions for factorio user/group - 'chown -R factorio:factorio ${BASEDIR}'"
-    chown -R factorio:factorio ${BASEDIR}
 
     FACTORIO_OPTS="${FACTORIO_OPTS} --start-server-load-latest --server-settings ${CONFIGDIR}/server-settings.json"
 }
 
 exit_handler() {
     log "INFO - Exit signal received, commencing shutdown"
-    pkill -15 -f ${BINDIR}/x64/factorio
+    pkill -15 -f ${FACTORIO}
     for i in `seq 0 9`;
         do
-            [ -z "$(pgrep -f ${BINDIR}/x64/factorio)" ] && break
+            [ -z "$(pgrep -f ${FACTORIO})" ] && break
             # kill it with fire if it hasn't stopped itself after 9 seconds
-            [ $i -gt 8 ] && pkill -9 -f ${BINDIR}/x64/factorio || true
+            [ $i -gt 8 ] && pkill -9 -f ${FACTORIO} || true
             sleep 1
     done
     log "INFO - Shutdown complete. Nothing more to see here. Have a nice day!"
@@ -124,16 +154,18 @@ trap 'kill ${!}; exit_handler' SIGHUP SIGINT SIGQUIT SIGTERM
 if [ "$(id -u)" = '0' ];
     then
         log "INFO - Entrypoint running with UID 0 (root)"
-        if [ "$(id factorio -u)" != "${FACTORIO_UID}" ] || [ "$(id factorio -g)" != "${FACTORIO_GID}" ];
+        if [ "$(id factorio -g)" != "${PGID}" ] || [ "$(id factorio -u)" != "${PUID}" ];
             then
-                log "INFO - Setting custom factorio UID/GID: UID=${FACTORIO_UID}, GID=${FACTORIO_GID}"
-                usermod -u ${FACTORIO_UID} factorio && groupmod -g ${FACTORIO_GID} factorio
+                log "INFO - Setting custom factorio GID/UID: GID=${PGID}, UID=${PUID}"
+                groupmod -o -g ${PGID} factorio
+                usermod -o -u ${PUID} factorio
             else
-                log "INFO - UID/GID for factorio are unchanged: UID=${FACTORIO_UID}, GID=${FACTORIO_GID}"
+                log "INFO - GID/UID for factorio are unchanged: GID=${PGID}, UID=${PUID}"
         fi
 
         if [[ "${@}" == 'factorio' ]];
             then
+                do_chown
                 factorio_setup
                 if [ "${RUNAS_UID0}" == 'true' ];
                     then
@@ -147,7 +179,7 @@ if [ "$(id -u)" = '0' ];
                        idle_handler
                 fi
 
-                log "INFO - Use su-exec to drop priveleges and start Factorio Headless as UID=${FACTORIO_UID}, GID=${FACTORIO_GID}"
+                log "INFO - Use su-exec to drop priveleges and start Factorio Headless as GID=${PGID}, UID=${PUID}"
                 log "EXEC - su-exec factorio:factorio ${FACTORIO} ${FACTORIO_OPTS}"
                 exec 0<&-
                 exec su-exec factorio:factorio ${FACTORIO} ${FACTORIO_OPTS} &
@@ -158,8 +190,8 @@ if [ "$(id -u)" = '0' ];
         fi
     else
         log "WARN - Container/entrypoint not started as UID 0 (root)"
-        log "WARN - Unable to change permissions or set custom UID/GID if configured"
-        log "WARN - Process will be spawned with UID=$(id -u), GID=$(id -g)"
+        log "WARN - Unable to change permissions or set custom GID/UID if configured"
+        log "WARN - Process will be spawned with GID=$(id -g), PID=$(id -u)"
         log "WARN - Depending on permissions requested command may not work"
         if [[ "${@}" == 'factorio' ]];
             then

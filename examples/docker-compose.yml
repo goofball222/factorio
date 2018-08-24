@@ -1,11 +1,17 @@
-version: '2'
+version: '3'
+
 services:
   factorio:
-    image: "goofball222/factorio:latest"
+    image: goofball222/factorio
+    container_name: factorio
+    restart: unless-stopped
     ports:
-     - "27015:27015"
-     - "34197:34197/udp"
+      - "27015:27015"
+      - "34197:34197/udp"
     volumes:
-     - /DATA_VOLUME/factorio/config:/opt/factorio/config
-     - /DATA_VOLUME/factorio/mods:/opt/factorio/mods
-     - /DATA_VOLUME/factorio/saves:/opt/factorio/saves
+      - /etc/localtime:/etc/localtime:ro
+      - ./config:/opt/factorio/config
+      - ./mods:/opt/factorio/mods
+      - ./saves:/opt/factorio/saves
+    environment:
+      - TZ=UTC

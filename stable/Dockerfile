@@ -19,8 +19,9 @@ ENV \
     DEBUG=false \
     FACTORIO_RCON_PASSWORD= \
     FACTORIO_OPTS= \
-    FACTORIO_GID=999 \
-    FACTORIO_UID=999 \
+    PGID=999 \
+    PUID=999 \
+    RUN_CHOWN=true \
     RUNAS_UID0=false
 
 WORKDIR /opt/factorio
@@ -30,15 +31,18 @@ COPY root /
 RUN \
     set -x \
     && delgroup ping \
-    && addgroup -g $FACTORIO_GID factorio \
-    && adduser -D -G factorio -u $FACTORIO_UID factorio \
-    && apk --update add bash curl shadow su-exec \
+    && addgroup -g $PGID factorio \
+    && adduser -D -G factorio -u $PUID factorio \
+    && apk add -q --no-cache --virtual .build-deps \
+        curl \
+    && apk add -q --no-cache \
+        bash curl shadow su-exec tzdata \
     && curl -sSL https://www.factorio.com/get-download/$VERSION/headless/linux64 -o /tmp/factorio_headless_x64_$VERSION.tar.xz \
     && tar -xJf /tmp/factorio_headless_x64_$VERSION.tar.xz -C /opt \
-    && rm /tmp/factorio_headless_x64_$VERSION.tar.xz \
-    && apk del curl \
     && bash -c 'mkdir -p {config,mods,saves}' \
-    && chown -R factorio:factorio /opt/factorio
+    && chown -R factorio:factorio /opt/factorio \
+    && apk del -q --purge .build-deps \
+    && rm -rf /tmp/* /var/cache/apk/*
 
 EXPOSE 34197/udp 27015/tcp
 
