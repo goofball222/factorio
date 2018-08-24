@@ -8,6 +8,7 @@
     * docker-entrypoint.sh
         * Add support for RUN_CHOWN flag
         * Change FACTORIO_GID and FACTORIO_UID to PGID/PUID
+        * Add -o flag to groupmod/usermod - allow setting custom GID/UID when already exists
     * Update documentation to reflect variable changes
     * Update build hooks script
 ---
