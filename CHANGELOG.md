@@ -1,5 +1,6 @@
 * **2019-02-26**
-    * Bump experimental VERSION to [0.17.0](https://forums.factorio.com/65070)
+    * ~~Bump experimental VERSION to [0.17.0](https://forums.factorio.com/65070)~~
+    * Bump experimental VERSION to [0.17.1](https://forums.factorio.com/65227)
 ---
 * **2018-08-24**
     * Update Dockerfile
