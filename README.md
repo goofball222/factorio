@@ -93,8 +93,10 @@ services:
 | Variable | Default | Description |
 | :--- | :---: | --- |
 | `DEBUG` | ***false*** | Set to *true* for extra container verbosity for debugging |
-| `FACTORIO_RCON_PASSWORD` | ***unset*** | Specifiy the RCON password |
 | `FACTORIO_OPTS` | ***unset*** | Add custom command line options to factorio server executable at runtime |
+| `FACTORIO_PORT` | ***unset*** | Override server default port for game client connections |
+| `FACTORIO_RCON_PASSWORD` | ***unset*** | Specifiy the server RCON password |
+| `FACTORIO_RCON_PORT` | ***27015*** | Specifies the server RCON admin port |
 | `PGID` | ***999*** | Specifies the GID for the container internal factorio group (used for file ownership) |
 | `PUID` | ***999*** | Specifies the UID for the container internal factorio user (used for process and file ownership) |
 | `RUN_CHOWN` | ***true*** | Set to *false* to disable the container automatic `chown` at startup. Speeds up startup process on overlay2 Docker hosts. **NB/IMPORTANT:** It's critical that you insure directory/data permissions on all mapped volumes are correct before disabling this or Factorio will not start. |

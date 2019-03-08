@@ -3,8 +3,8 @@
 # Init script for Factorio headless server Docker container
 # License: Apache-2.0
 # Github: https://github.com/goofball222/factorio.git
-SCRIPT_VERSION="1.0.1"
-# Last updated date: 2018-08-24
+SCRIPT_VERSION="1.0.2"
+# Last updated date: 2019-03-08
 
 set -Eeuo pipefail
 
@@ -21,6 +21,14 @@ log "INFO - Script version ${SCRIPT_VERSION}"
 
 FACTORIO_GID=${FACTORIO_GID:-}
 FACTORIO_UID=${FACTORIO_UID:-}
+
+FACTORIO_OPTS="${FACTORIO_OPTS:-}"
+
+FACTORIO_PORT=${FACTORIO_PORT:-}
+
+FACTORIO_RCON_PASSWORD=${FACTORIO_RCON_PASSWORD:-}
+
+FACTORIO_RCON_PORT=${FACTORIO_RCON_PORT:-27015}
 
 if [ ! -z "${FACTORIO_GID}" ]; then
     log "INFO - FACTORIO_GID is set to '${FACTORIO_GID}'. Please update to the PGID env variable."
@@ -41,10 +49,6 @@ MODDIR=${BASEDIR}/mods
 SAVEDIR=${BASEDIR}/saves
 
 FACTORIO=${BINDIR}/x64/factorio
-
-FACTORIO_RCON_PORT="27015"
-
-FACTORIO_OPTS="${FACTORIO_OPTS}"
 
 cd ${BASEDIR}
 
@@ -68,6 +72,11 @@ do_chown() {
 
 factorio_setup() {
 
+    if [ ! -z "${FACTORIO_PORT}" ];
+        then
+            FACTORIO_OPTS="${FACTORIO_OPTS} --port ${FACTORIO_PORT}"
+    fi
+
     if [ ! -z "${FACTORIO_RCON_PASSWORD}" ];
         then
             log "INFO - Using RCON password found in ENV"
@@ -88,7 +97,7 @@ factorio_setup() {
     fi
 
     log "INFO - RCON password is '${FACTORIO_RCON_PASSWORD}'"
-    FACTORIO_OPTS="${FACTORIO_OPTS} --rcon-password $FACTORIO_RCON_PASSWORD --rcon-port ${FACTORIO_RCON_PORT}"
+    FACTORIO_OPTS="${FACTORIO_OPTS} --rcon-port=${FACTORIO_RCON_PORT} --rcon-password ${FACTORIO_RCON_PASSWORD}"
 
     # Copy example configs to CONFIGDIR
     cp -p ${DATADIR}/server-settings.example.json ${CONFIGDIR}/server-settings.example.json

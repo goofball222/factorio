@@ -1,5 +1,7 @@
 * **2019-03-08**
     * Bump experimental VERSION to [0.17.9](https://forums.factorio.com/67151)
+    * Update script to resolve GitHub issue #5 - Allow setting game and RCON port by ENV
+        * Update documentation to reflect additional ENV variables for server ports
 ---
 * **2019-03-07**
     * Bump experimental VERSION to [0.17.8](https://forums.factorio.com/67041)

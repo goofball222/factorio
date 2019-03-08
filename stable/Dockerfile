@@ -17,8 +17,6 @@ LABEL \
 
 ENV \
     DEBUG=false \
-    FACTORIO_RCON_PASSWORD= \
-    FACTORIO_OPTS= \
     PGID=999 \
     PUID=999 \
     RUN_CHOWN=true \
