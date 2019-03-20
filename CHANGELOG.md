@@ -1,4 +1,7 @@
 * **2019-03-19**
+    * Bump experimental VERSION to [0.17.16](https://forums.factorio.com/68126)
+---
+* **2019-03-18**
     * Bump experimental VERSION to [0.17.15](https://forums.factorio.com/68030)
 ---
 * **2019-03-15**
