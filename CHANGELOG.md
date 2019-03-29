@@ -1,5 +1,6 @@
 * **2019-03-29**
     * Bump experimental VERSION to [0.17.23](https://forums.factorio.com/68710)
+    * Touch changelog to bump git commit, attempting to get Docker Hub to stop caching bad data.
 ---
 * **2019-03-26**
     * ~~Bump experimental VERSION to [0.17.19](https://forums.factorio.com/68509)~~
