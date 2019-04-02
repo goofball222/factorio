@@ -35,7 +35,7 @@ RUN \
         curl \
     && apk add -q --no-cache \
         bash curl shadow su-exec tzdata \
-    && curl -sSL https://www.factorio.com/get-download/$VERSION/headless/linux64 -o /tmp/factorio_headless_x64_$VERSION.tar.xz \
+    && curl -sSL https://factorio.com/get-download/$VERSION/headless/linux64 -o /tmp/factorio_headless_x64_$VERSION.tar.xz \
     && tar -xJf /tmp/factorio_headless_x64_$VERSION.tar.xz -C /opt \
     && bash -c 'mkdir -p {config,mods,saves}' \
     && chown -R factorio:factorio /opt/factorio \
