@@ -1,3 +1,6 @@
+* **2019-04-04**
+    * Bump experimental VERSION to [0.17.25](https://forums.factorio.com/69031)
+---
 * **2019-04-02**
     * Bump experimental VERSION to [0.17.24](https://forums.factorio.com/68909)
     * Update Dockerfile headless package link. Factorio CDN not behaving with Docker Cloud in the last couple of builds.
