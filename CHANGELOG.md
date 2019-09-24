@@ -1,5 +1,11 @@
+* **2019-09-24**
+    * Promote experimental VERSION [0.17.69](https://forums.factorio.com/75864) to stable/latest
+    * Update build hook script to support multi-tag builds on Docker Cloud
+    * Tag release 0.17.69
+---
 * **2019-09-19**
     * Bump experimental VERSION to [0.17.69](https://forums.factorio.com/75864)
+---
 * **2019-09-04**
     * Bump experimental VERSION to [0.17.68](https://forums.factorio.com/75296)
 ---
