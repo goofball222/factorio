@@ -1,3 +1,8 @@
+* **2019-09-27**
+    * Update docker-entrypoint.sh to support new config files and scenarios
+    * Update Dockerfile to move to a single volume "/factorio"
+    * Update documentation listing new options
+---
 * **2019-09-24**
     * Promote experimental VERSION [0.17.69](https://forums.factorio.com/75864) to stable/latest
     * Update build hook script to support multi-tag builds on Docker Cloud

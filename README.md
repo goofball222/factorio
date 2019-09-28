@@ -22,7 +22,7 @@ For security/attack surface reduction the container is configured to run the Fac
 The container will attempt to adjust permissions on mapped volumes and data to match before dropping privileges to start the Factorio server processes.
 If the container is being run with a different Docker --user setting permissions may need to be fixed manually.
 
-IE: `chown -R 999:999 ./{config,mods,saves}`
+IE: `chown -R 999:999 factorio`
 
 A custom UID and GID can be configured for the container internal factorio user and group. For more information see the "Environment variables" section in this document.
 
@@ -34,10 +34,25 @@ A custom UID and GID can be configured for the container internal factorio user 
 
 ## Usage
 
-**The container exposes three volumes:**
-* `/opt/factorio/config` - Factorio headless server config files
-* `/opt/factorio/mods` - Factorio mods default directory for non-standard add-ins
-* `/opt/factorio/saves` - Factorio save/map file storage location
+**The container has a single volume `/factorio` with the following structure:**
+
+    factorio
+    |-- config
+    |   |-- map-gen-settings.json
+    |   |-- map-gen-settings.example.json
+    |   |-- map-settings.json
+    |   |-- map-settings.example.json
+    |   |-- RCON.pw
+    |   |-- server-adminlist.json
+    |   |-- server-banlist.json
+    |   |-- server-settings.json
+    |   `-- server-whitelist.json
+    |-- mods
+    |   `-- mod.zip
+    |-- saves
+    |   `-- save.zip
+    `-- scenarios
+        `-- scenario.zip
 
 **The container exposes two ports:**
 * `27015/tcp`: Factorio RCON port
@@ -57,7 +72,7 @@ $ docker run --name factorio -d \
 
 **Recommended: run via [Docker Compose](https://docs.docker.com/compose/):**
 
-Have the container store the config, mods and saves on a local file-system or in a specific, known data volume (recommended for persistence and troubleshooting) and expose the RCON port for admin:
+Have the container store the config, mods, saves, and scenarios on a local file-system or in a specific, known data volume (recommended for persistence and troubleshooting) and expose the RCON port for admin:
 
 ```bash
 
@@ -73,9 +88,7 @@ services:
       - "34197:34197/udp"
     volumes:
       - /etc/localtime:/etc/localtime:ro
-      - ./config:/opt/factorio/config
-      - ./mods:/opt/factorio/mods
-      - ./saves:/opt/factorio/saves
+      - .:/factorio
     environment:
       - TZ=UTC
 
@@ -98,6 +111,7 @@ services:
 | `FACTORIO_PORT` | ***unset*** | Override server default port for game client connections |
 | `FACTORIO_RCON_PASSWORD` | ***unset*** | Specifiy the server RCON password |
 | `FACTORIO_RCON_PORT` | ***27015*** | Specifies the server RCON admin port |
+| `FACTORIO_SCENARIO` | ***unset*** | Specifies a scenario name for the server to run |
 | `PGID` | ***999*** | Specifies the GID for the container internal factorio group (used for file ownership) |
 | `PUID` | ***999*** | Specifies the UID for the container internal factorio user (used for process and file ownership) |
 | `RUN_CHOWN` | ***true*** | Set to *false* to disable the container automatic `chown` at startup. Speeds up startup process on overlay2 Docker hosts. **NB/IMPORTANT:** It's critical that you insure directory/data permissions on all mapped volumes are correct before disabling this or Factorio will not start. |
@@ -107,7 +121,35 @@ services:
 
 During the first launch of the container the server-settings.json and map-gen-settings.json config files will be populated with the Factorio sample/defaults if they don't already exist. It is highly recommended to edit these files and relaunch the container afterwards or provide pre-setup copies in the config directory prior to first launch. The config sample files are available in the headless server tar.gz file in the "data" folder. The container will also generate a default map / save.zip in the saves folder if one is not found on launch.
 
-The RCON password can be set via the FACTORIO_RCON_PASSWORD ENV flag or loaded from `/opt/factorio/config/RCON.pwd` each time the container is started. If the FACTORIO_RCON_PASSWORD ENV var is not set or the RCON.pwd file is not present a random RCON password will be generated and saved in `/opt/factorio/config/RCON.pwd`. The active RCON password can also be found at the start of the container log file at each launch.
+The RCON password can be set via the FACTORIO_RCON_PASSWORD ENV flag or loaded from `/factorio/config/RCON.pwd` each time the container is started. If the FACTORIO_RCON_PASSWORD ENV var is not set or the RCON.pwd file is not present a random RCON password will be generated and saved in `/factorio/config/RCON.pwd`. The active RCON password can also be found at the start of the container log file at each launch.
+
+---
+
+## Optional config examples
+
+`config/server-whitelist.json` - **if present only the configured Factorio users will be allowed access**
+
+    [
+        "user1",
+        "user2",
+        "user3"
+    ]
+
+`config/server-banlist.json` - if present the configured Factorio user IDs will be denied access
+
+    [
+        "banneduser1",
+        "banneduser2",
+        "banneduser3",
+        "banneduser4"
+    ]
+
+`config/server-adminlist.json` - if present the configured Factorio user IDs will have admin access
+
+    [
+        "adminuser1",
+        "adminuser2"
+    ]
 
 [//]: # (Licensed under the Apache 2.0 license)
-[//]: # (Copyright 2018 The Goofball - goofball222@gmail.com)
+[//]: # (Copyright 2019 The Goofball - goofball222@gmail.com)

@@ -3,8 +3,8 @@
 # Init script for Factorio headless server Docker container
 # License: Apache-2.0
 # Github: https://github.com/goofball222/factorio.git
-SCRIPT_VERSION="1.0.2"
-# Last updated date: 2019-03-08
+SCRIPT_VERSION="1.2.1"
+# Last updated date: 2019-09-27
 
 set -Eeuo pipefail
 
@@ -30,6 +30,8 @@ FACTORIO_RCON_PASSWORD=${FACTORIO_RCON_PASSWORD:-}
 
 FACTORIO_RCON_PORT=${FACTORIO_RCON_PORT:-27015}
 
+FACTORIO_SCENARIO=${FACTORIO_SCENARIO:-}
+
 if [ ! -z "${FACTORIO_GID}" ]; then
     log "INFO - FACTORIO_GID is set to '${FACTORIO_GID}'. Please update to the PGID env variable."
     log "INFO - Automatically converting FACTORIO_GID to PGID."
@@ -43,30 +45,35 @@ fi
 
 BASEDIR="/opt/factorio"
 BINDIR=${BASEDIR}/bin
-CONFIGDIR=${BASEDIR}/config
 DATADIR=${BASEDIR}/data
+CONFIGDIR=${BASEDIR}/config
 MODDIR=${BASEDIR}/mods
 SAVEDIR=${BASEDIR}/saves
+SCENARIODIR=${BASEDIR}/scenarios
 
 FACTORIO=${BINDIR}/x64/factorio
+
+VOLDIR="/factorio"
 
 cd ${BASEDIR}
 
 do_chown() {
     if [ "${RUN_CHOWN}" == 'false' ]; then
-        if [ ! "$(stat -c %u ${BASEDIR})" = "${PUID}" ] || [ ! "$(stat -c %u ${DATADIR})" = "${PUID}" ] \
-        || [ ! "$(stat -c %u ${MODDIR})" = "${PUID}" ] || [ ! "$(stat -c %u ${SAVEDIR})" = "${PUID}" ]; then
+        if [ ! "$(stat -c %u ${BASEDIR})" = "${PUID}" ] || [ ! "$(stat -c %u ${VOLDIR})" = "${PUID}" ] \
+        || [ ! "$(stat -c %u ${CONFIGDIR})" = "${PUID}" ] || [ ! "$(stat -c %u ${DATADIR})" = "${PUID}" ] \
+        || [ ! "$(stat -c %u ${MODDIR})" = "${PUID}" ] || [ ! "$(stat -c %u ${SAVEDIR})" = "${PUID}" ] \
+        || [ ! "$(stat -c %u ${SCENARIODIR})" = "${PUID}" ]; then
             log "WARN - Configured PUID doesn't match owner of a required directory. Ignoring RUN_CHOWN=false"
             log "INFO - Ensuring permissions are correct before continuing - 'chown -R factorio:factorio ${BASEDIR}'"
             log "INFO - Running recursive 'chown' on Docker overlay2 storage is **really** slow. This may take a bit."
-            chown -R factorio:factorio ${BASEDIR}
+            chown -R factorio:factorio ${BASEDIR} ${VOLDIR}
         else
             log "INFO - RUN_CHOWN set to 'false' - Not running 'chown -R factorio:factorio ${BASEDIR}', assume permissions are right."
         fi
     else
         log "INFO - Ensuring permissions are correct before continuing - 'chown -R factorio:factorio ${BASEDIR}'"
         log "INFO - Running recursive 'chown' on Docker overlay2 storage is **really** slow. This may take a bit."
-        chown -R factorio:factorio ${BASEDIR}
+        chown -R factorio:factorio ${BASEDIR} ${VOLDIR}
     fi
 }
 
@@ -76,6 +83,9 @@ factorio_setup() {
         then
             FACTORIO_OPTS="${FACTORIO_OPTS} --port ${FACTORIO_PORT}"
     fi
+
+    log "INFO - Remove any incomplete *.tmp.zip from crash/forced exit in ${SAVEDIR}"
+    rm -f ${SAVEDIR}/*.tmp.zip
 
     if [ ! -z "${FACTORIO_RCON_PASSWORD}" ];
         then
@@ -90,6 +100,7 @@ factorio_setup() {
                     FACTORIO_RCON_PASSWORD=$(cat /dev/urandom | tr -dc 'a-f0-9' | head -c16)
                     set -o pipefail
                     echo "${FACTORIO_RCON_PASSWORD}" > "${CONFIGDIR}/RCON.pwd"
+                    chown factorio:factorio ${CONFIGDIR}/RCON.pwd
                 else
                     log "INFO - Using existing RCON.pwd found in ${CONFIGDIR}"
                     FACTORIO_RCON_PASSWORD=$(cat ${CONFIGDIR}/RCON.pwd)
@@ -122,17 +133,50 @@ factorio_setup() {
             log "INFO - Using existing map-gen-settings.json found in ${CONFIGDIR}"
     fi
 
-    # Check for existing map / save.zip, use if found. Generate new with settings if not.
-    if [ ! -f "${SAVEDIR}/save.zip" ];
+    # Check for banlist file in config dir, set launch options to use if found
+    if [ ! -f "${CONFIGDIR}/server-banlist.json" ];
         then
-            log "WARN - No save.zip found in ${SAVEDIR}"
-            log "INFO - Creating new map / save.zip in ${SAVEDIR} with settings from ${CONFIGDIR}/map-gen-settings.json"
-            su-exec factorio:factorio ${FACTORIO} --create ${SAVEDIR}/save.zip --map-gen-settings ${CONFIGDIR}/map-gen-settings.json
+            log "INFO - No server-banlist.json found in ${CONFIGDIR}, ignoring"
         else
-            log "INFO - Loading save.zip found in ${SAVEDIR}"
+            log "INFO - Using server-banlist.json found in ${CONFIGDIR}"
+            FACTORIO_OPTS="${FACTORIO_OPTS} --server-banlist ${CONFIGDIR}/server-banlist.json"
     fi
 
-    FACTORIO_OPTS="${FACTORIO_OPTS} --start-server-load-latest --server-settings ${CONFIGDIR}/server-settings.json"
+    # Check for whitelist file in config dir, set launch options to use if found
+    if [ ! -f "${CONFIGDIR}/server-whitelist.json" ];
+        then
+            log "INFO - No server-whitelist.json found in ${CONFIGDIR}, ignoring"
+        else
+            log "INFO - Using server-whitelist.json found in ${CONFIGDIR}"
+            FACTORIO_OPTS="${FACTORIO_OPTS} --server-whitelist ${CONFIGDIR}/server-whitelist.json --use-server-whitelist"
+    fi
+
+    # Check for admin list file in config dir, set launch options to use if found
+    if [ ! -f "${CONFIGDIR}/server-adminlist.json" ];
+        then
+            log "INFO - No server-adminlist.json found in ${CONFIGDIR}, ignoring"
+        else
+            log "INFO - Using server-adminlist.json found in ${CONFIGDIR}"
+            FACTORIO_OPTS="${FACTORIO_OPTS} --server-adminlist ${CONFIGDIR}/server-adminlist.json"
+    fi
+
+    if [ ! -z "${FACTORIO_SCENARIO}" ];
+        then
+            log "INFO - Scenario ${FACTORIO_SCENARIO} configured, starting Factorio in scenario loading mode"
+            FACTORIO_OPTS="${FACTORIO_OPTS} --start-server-load-scenario ${FACTORIO_SCENARIO} --server-settings ${CONFIGDIR}/server-settings.json --server-id ${CONFIGDIR}/server-id.json"
+        else
+            # Check for existing save.zip, use if found. Generate new with settings if not.
+            if [ ! -f "${SAVEDIR}/save.zip" ];
+                then
+                    log "WARN - No save.zip found in ${SAVEDIR}"
+                    log "INFO - Creating new map / save.zip in ${SAVEDIR} with settings from ${CONFIGDIR}/map-gen-settings.json"
+                    su-exec factorio:factorio ${FACTORIO} --create ${SAVEDIR}/save.zip --map-gen-settings ${CONFIGDIR}/map-gen-settings.json
+                else
+                    log "INFO - Loading save.zip found in ${SAVEDIR}"
+            fi
+            FACTORIO_OPTS="${FACTORIO_OPTS} --start-server-load-latest --server-settings ${CONFIGDIR}/server-settings.json --server-id ${CONFIGDIR}/server-id.json"
+    fi
+
 }
 
 exit_handler() {

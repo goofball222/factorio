@@ -37,14 +37,18 @@ RUN \
         bash curl shadow su-exec tzdata \
     && curl -sSL https://www.factorio.com/get-download/$VERSION/headless/linux64 -o /tmp/factorio_headless_x64_$VERSION.tar.xz \
     && tar -xJf /tmp/factorio_headless_x64_$VERSION.tar.xz -C /opt \
-    && bash -c 'mkdir -p {config,mods,saves}' \
-    && chown -R factorio:factorio /opt/factorio \
+    && bash -c 'mkdir -p {/factorio,/factorio/config,/factorio/mods,/factorio/saves,/factorio/scenarios}' \
+    && ln -s /factorio/config /opt/factorio/config \
+    && ln -s /factorio/mods /opt/factorio/mods \
+    && ln -s /factorio/saves /opt/factorio/saves \
+    && ln -s /factorio/scenarios /opt/factorio/scenarios \
+    && chown -R factorio:factorio /opt/factorio /factorio \
     && apk del -q --purge .build-deps \
     && rm -rf /tmp/* /var/cache/apk/*
 
 EXPOSE 34197/udp 27015/tcp
 
-VOLUME ["/opt/factorio/config", "/opt/factorio/mods", "/opt/factorio/saves"]
+VOLUME ["/factorio"]
 
 ENTRYPOINT ["docker-entrypoint.sh"]
 
