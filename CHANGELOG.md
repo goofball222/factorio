@@ -1,3 +1,6 @@
+* **2019-10-16**
+    * Bump experimental VERSION to [0.17.71](https://forums.factorio.com/76855)
+---
 * **2019-09-27**
     * Update docker-entrypoint.sh to support new config files and scenarios
     * Update Dockerfile to move to a single volume "/factorio"
