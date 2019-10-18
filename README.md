@@ -6,7 +6,7 @@
 | Tag | Factorio Version | Description | Release Date |
 | --- | :---: | --- | :---: |
 | [latest](https://github.com/goofball222/factorio/blob/master/stable/Dockerfile) | [0.17.69](https://forums.factorio.com/75864) | Factorio headless server stable release | 2019-09-24 |
-| [experimental](https://github.com/goofball222/factorio/blob/master/experimental/Dockerfile) | [0.17.71](https://forums.factorio.com/76855) | Factorio headless server experimental release | 2019-10-16 |
+| [experimental](https://github.com/goofball222/factorio/blob/master/experimental/Dockerfile) | [0.17.72](https://forums.factorio.com/76940 | Factorio headless server experimental release | 2019-10-18 |
 | [0.17.69](https://github.com/goofball222/factorio/releases/tag/0.17.69) | [0.17.69](https://forums.factorio.com/75864) | Factorio headless server stable static release | 2019-09-24 |
 
 ---
