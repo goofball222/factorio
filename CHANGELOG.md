@@ -1,3 +1,7 @@
+* **2019-12-06**
+    * Bump stable VERSION to [0.17.79](https://forums.factorio.com/78146)
+    * Tag release 0.17.79
+---
 * **2019-11-19**
     * Bump experimental VERSION to [0.17.79](https://forums.factorio.com/78146)
 ---
