@@ -1,3 +1,6 @@
+* **2020-02-06**
+    * Bump experimental VERSION to [0.18.4](https://forums.factorio.com/80954)
+---
 * **2020-01-30**
     * Bump experimental VERSION to [0.18.3](https://forums.factorio.com/80665)
 ---
