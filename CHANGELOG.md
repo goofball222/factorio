@@ -1,6 +1,7 @@
 * **2020-02-11**
-    ~~* Bump experimental VERSION to [0.18.5](https://forums.factorio.com/81144)~~
+    * ~~Bump experimental VERSION to [0.18.5](https://forums.factorio.com/81144)~~
     * Bump experimental VERSION to [0.18.6](https://forums.factorio.com/81152)
+    * Fix CHANGELOG.md formatting
 ---
 * **2020-02-06**
     * Bump experimental VERSION to [0.18.4](https://forums.factorio.com/80954)
