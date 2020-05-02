@@ -54,6 +54,7 @@ SCENARIODIR=${BASEDIR}/scenarios
 FACTORIO=${BINDIR}/x64/factorio
 
 VOLDIR="/factorio"
+VOLSAVEDIR=${VOLDIR}/saves
 
 cd ${BASEDIR}
 
@@ -170,7 +171,7 @@ factorio_setup() {
                 then
                     log "WARN - No save.zip found in ${SAVEDIR}"
                     log "INFO - Creating new map / save.zip in ${SAVEDIR} with settings from ${CONFIGDIR}/map-gen-settings.json"
-                    su-exec factorio:factorio ${FACTORIO} --create ${SAVEDIR}/save.zip --map-gen-settings ${CONFIGDIR}/map-gen-settings.json
+                    su-exec factorio:factorio ${FACTORIO} --create ${VOLSAVEDIR}/save.zip --map-gen-settings ${CONFIGDIR}/map-gen-settings.json
                 else
                     log "INFO - Loading save.zip found in ${SAVEDIR}"
             fi
