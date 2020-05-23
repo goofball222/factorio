@@ -77,6 +77,12 @@ do_chown() {
     fi
 }
 
+load_save() {
+    # We avoid using --start-server-load-latest here, as the latest save might not be the desired one
+    # Ex: If you change from scenario to default gameplay but forgot to delete scenario.zip it would be loaded instead of save.zip
+    FACTORIO_OPTS="${FACTORIO_OPTS} --start-server ${SAVE_NAME} --server-settings ${CONFIGDIR}/server-settings.json --server-id ${CONFIGDIR}/server-id.json"
+}
+
 factorio_setup() {
 
     if [ ! -z "${FACTORIO_PORT}" ];
@@ -160,23 +166,31 @@ factorio_setup() {
             FACTORIO_OPTS="${FACTORIO_OPTS} --server-adminlist ${CONFIGDIR}/server-adminlist.json"
     fi
 
+    # Choose save file name. Scenario saves are named as the scenario itself.
     if [ ! -z "${FACTORIO_SCENARIO}" ];
         then
-            log "INFO - Scenario ${FACTORIO_SCENARIO} configured, starting Factorio in scenario loading mode"
-            FACTORIO_OPTS="${FACTORIO_OPTS} --start-server-load-scenario ${FACTORIO_SCENARIO} --server-settings ${CONFIGDIR}/server-settings.json --server-id ${CONFIGDIR}/server-id.json"
+            SAVE_NAME="${FACTORIO_SCENARIO}"
         else
-            # Check for existing save.zip, use if found. Generate new with settings if not.
-            if [ ! -f "${SAVEDIR}/save.zip" ];
-                then
-                    log "WARN - No save.zip found in ${SAVEDIR}"
-                    log "INFO - Creating new map / save.zip in ${SAVEDIR} with settings from ${CONFIGDIR}/map-gen-settings.json"
-                    su-exec factorio:factorio ${FACTORIO} --create ${SAVEDIR}/save.zip --map-gen-settings ${CONFIGDIR}/map-gen-settings.json
-                else
-                    log "INFO - Loading save.zip found in ${SAVEDIR}"
-            fi
-            FACTORIO_OPTS="${FACTORIO_OPTS} --start-server-load-latest --server-settings ${CONFIGDIR}/server-settings.json --server-id ${CONFIGDIR}/server-id.json"
-    fi
+            SAVE_NAME="save"
+    fi 
 
+    # Check for existing save file, use if found. Generate new with settings if not.
+    if [ ! -f "${SAVEDIR}/${SAVE_NAME}.zip" ];
+        then
+            log "WARN - No ${SAVE_NAME}.zip found in ${SAVEDIR}"
+            log "INFO - Creating new map / ${SAVE_NAME}.zip in ${SAVEDIR} with settings from ${CONFIGDIR}/map-gen-settings.json"
+            if [ ! -z "${FACTORIO_SCENARIO}" ];
+                then
+                    FACTORIO_OPTS="${FACTORIO_OPTS} --start-server-load-scenario ${FACTORIO_SCENARIO} --server-settings ${CONFIGDIR}/server-settings.json --server-id ${CONFIGDIR}/server-id.json"
+                else
+                    su-exec factorio:factorio ${FACTORIO} --create ${SAVEDIR}/save.zip --map-gen-settings ${CONFIGDIR}/map-gen-settings.json
+                    load_save
+            fi 
+        else
+            log "INFO - Loading ${SAVE_NAME}.zip found in ${SAVEDIR}"
+            load_save
+    fi
+    
 }
 
 exit_handler() {
