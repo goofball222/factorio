@@ -172,7 +172,7 @@ factorio_setup() {
             SAVE_NAME="${FACTORIO_SCENARIO}"
         else
             SAVE_NAME="save"
-    fi 
+    fi
 
     # Check for existing save file, use if found. Generate new with settings if not.
     if [ ! -f "${SAVEDIR}/${SAVE_NAME}.zip" ];
@@ -185,12 +185,12 @@ factorio_setup() {
                 else
                     su-exec factorio:factorio ${FACTORIO} --create ${SAVEDIR}/save.zip --map-gen-settings ${CONFIGDIR}/map-gen-settings.json
                     load_save
-            fi 
+            fi
         else
             log "INFO - Loading ${SAVE_NAME}.zip found in ${SAVEDIR}"
             load_save
     fi
-    
+
 }
 
 exit_handler() {
