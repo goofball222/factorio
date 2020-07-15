@@ -1,3 +1,6 @@
+* **2020-07-15**
+    * Bump experimental VERSION to [0.18.36](https://forums.factorio.com/86883)
+---
 * **2020-07-07**
     * Bump experimental VERSION to [0.18.35](https://forums.factorio.com/86629)
     * Update Dockerfile label schema
