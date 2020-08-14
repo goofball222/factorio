@@ -1,3 +1,7 @@
+* **2020-08-14**
+    * Factorio version 1.0! [1.0.0](https://forums.factorio.com/87912)
+    * Both "experimental" and "stable" were updated to 1.0.0 per the Factorio site releases.
+---
 * **2020-08-11**
     * Bump experimental VERSION to [0.18.47](https://forums.factorio.com/87797)
 ---
