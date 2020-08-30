@@ -54,6 +54,7 @@ SCENARIODIR=${BASEDIR}/scenarios
 FACTORIO=${BINDIR}/x64/factorio
 
 VOLDIR="/factorio"
+VOLSAVEDIR=${VOLDIR}/saves
 
 cd ${BASEDIR}
 
@@ -183,7 +184,7 @@ factorio_setup() {
                 then
                     FACTORIO_OPTS="${FACTORIO_OPTS} --start-server-load-scenario ${FACTORIO_SCENARIO} --server-settings ${CONFIGDIR}/server-settings.json --server-id ${CONFIGDIR}/server-id.json"
                 else
-                    su-exec factorio:factorio ${FACTORIO} --create ${SAVEDIR}/save.zip --map-gen-settings ${CONFIGDIR}/map-gen-settings.json
+                    su-exec factorio:factorio ${FACTORIO} --create ${VOLSAVEDIR}/save.zip --map-gen-settings ${CONFIGDIR}/map-gen-settings.json
                     load_save
             fi
         else
