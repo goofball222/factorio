@@ -1,3 +1,6 @@
+* **2021-01-22**
+    * Experimental Factorio version [1.1.13](https://forums.factorio.com/94772)
+---
 * **2021-01-16**
     * Experimental Factorio version [1.1.12](https://forums.factorio.com/94477)
 ---
