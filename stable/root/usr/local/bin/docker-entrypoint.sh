@@ -56,6 +56,12 @@ FACTORIO=${BINDIR}/x64/factorio
 VOLDIR="/factorio"
 VOLSAVEDIR=${VOLDIR}/saves
 
+# Make sure required directories exist in ${VOLDIR} - IE: new install with empty volume on host mapped over default volume
+[ -d ${VOLDIR}/config ] || mkdir -p ${VOLDIR}/config
+[ -d ${VOLDIR}/mods ] || mkdir -p ${VOLDIR}/mods
+[ -d ${VOLDIR}/saves ] || mkdir -p ${VOLDIR}/saves
+[ -d ${VOLDIR}/scenarios ] || mkdir -p ${VOLDIR}/scenarios
+
 cd ${BASEDIR}
 
 do_chown() {

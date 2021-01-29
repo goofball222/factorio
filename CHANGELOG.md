@@ -2,6 +2,7 @@
     * Factorio version [1.1.19](https://forums.factorio.com/94988) promoted to stable
     * Tag release 1.1.19
     * Functionize experimental version entrypoint script, will deploy to stable if no issues found after ~2w
+    * Quick-fix to stable entyrypoint script closes issue #21
 ---
 * **2021-01-26**
     * Experimental Factorio version [1.1.19](https://forums.factorio.com/94988)
