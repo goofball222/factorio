@@ -10,8 +10,6 @@ services:
       - "34197:34197/udp"
     volumes:
       - /etc/localtime:/etc/localtime:ro
-      - ./config:/opt/factorio/config
-      - ./mods:/opt/factorio/mods
-      - ./saves:/opt/factorio/saves
+      - .:/factorio
     environment:
       - TZ=UTC
