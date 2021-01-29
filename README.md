@@ -1,6 +1,6 @@
 # Containerized Factorio Headless Server
 
-[![Docker Build Status](https://img.shields.io/docker/cloud/build/goofball222/factorio.svg)](https://hub.docker.com/r/goofball222/factorio/) [![Docker Pulls](https://img.shields.io/docker/pulls/goofball222/factorio.svg)](https://hub.docker.com/r/goofball222/factorio/) [![Docker Stars](https://img.shields.io/docker/stars/goofball222/factorio.svg)](https://hub.docker.com/r/goofball222/factorio/) 
+[![Docker Build Status](https://img.shields.io/docker/cloud/build/goofball222/factorio.svg)](https://hub.docker.com/r/goofball222/factorio/) [![Docker Pulls](https://img.shields.io/docker/pulls/goofball222/factorio.svg)](https://hub.docker.com/r/goofball222/factorio/) [![Docker Stars](https://img.shields.io/docker/stars/goofball222/factorio.svg)](https://hub.docker.com/r/goofball222/factorio/)
 
 | Docker Tag | Factorio Version | Description | Release Date |
 | --- | :---: | --- | :---: |
