@@ -3,7 +3,7 @@
 # entrypoint-functions.sh script for Factorio headless server Docker container
 # License: Apache-2.0
 # Github: https://github.com/goofball222/factorio
-ENTRYPOINT_FUNCTIONS_VERSION="1.0.0"
+ENTRYPOINT_FUNCTIONS_VERSION="1.0.1"
 # Last updated date: 2021-01-29
 
 f_chkdir() {
@@ -72,9 +72,8 @@ f_setup() {
     FACTORIO_RCON_PASSWORD=${FACTORIO_RCON_PASSWORD:-}
     FACTORIO_RCON_PORT=${FACTORIO_RCON_PORT:-27015}
     FACTORIO_SCENARIO=${FACTORIO_SCENARIO:-}
-    if [ ! -z "${FACTORIO_PORT}" ];
-        then
-            FACTORIO_OPTS="${FACTORIO_OPTS} --port ${FACTORIO_PORT}"
+    if [ ! -z "${FACTORIO_PORT}" ]; then
+        FACTORIO_OPTS="${FACTORIO_OPTS} --port ${FACTORIO_PORT}"
     fi
 
     f_log "INFO - Remove any incomplete *.tmp.zip from crash/forced exit in ${SAVEDIR}"
@@ -157,12 +156,11 @@ f_setup() {
     if [ ! -f "${SAVEDIR}/${SAVE_NAME}.zip" ]; then
         f_log "WARN - No ${SAVE_NAME}.zip found in ${SAVEDIR}"
         f_log "INFO - Creating new map / ${SAVE_NAME}.zip in ${SAVEDIR} with settings from ${CONFIGDIR}/map-gen-settings.json"
-        if [ ! -z "${FACTORIO_SCENARIO}" ];
-            then
-                FACTORIO_OPTS="${FACTORIO_OPTS} --start-server-load-scenario ${FACTORIO_SCENARIO} --server-settings ${CONFIGDIR}/server-settings.json --server-id ${CONFIGDIR}/server-id.json"
-            else
-                su-exec factorio:factorio ${FACTORIO} --create ${VOLSAVEDIR}/save.zip --map-gen-settings ${CONFIGDIR}/map-gen-settings.json
-                f_load_save
+        if [ ! -z "${FACTORIO_SCENARIO}" ]; then
+            FACTORIO_OPTS="${FACTORIO_OPTS} --start-server-load-scenario ${FACTORIO_SCENARIO} --server-settings ${CONFIGDIR}/server-settings.json --server-id ${CONFIGDIR}/server-id.json"
+        else
+            su-exec factorio:factorio ${FACTORIO} --create ${VOLSAVEDIR}/save.zip --map-gen-settings ${CONFIGDIR}/map-gen-settings.json
+            f_load_save
         fi
     else
         f_log "INFO - Loading ${SAVE_NAME}.zip found in ${SAVEDIR}"

@@ -1,11 +1,10 @@
-# Factorio Docker Container
+# Containerized Factorio Headless Server
 
-[![Docker Build Status](https://img.shields.io/docker/cloud/build/goofball222/factorio.svg)](https://hub.docker.com/r/goofball222/factorio/) [![Docker Pulls](https://img.shields.io/docker/pulls/goofball222/factorio.svg)](https://hub.docker.com/r/goofball222/factorio/) [![Docker Stars](https://img.shields.io/docker/stars/goofball222/factorio.svg)](https://hub.docker.com/r/goofball222/factorio/) [![MB Layers](https://images.microbadger.com/badges/image/goofball222/factorio.svg)](https://microbadger.com/images/goofball222/factorio) [![MB Commit](https://images.microbadger.com/badges/commit/goofball222/factorio.svg)](https://microbadger.com/images/goofball222/factorio) [![MB License](https://images.microbadger.com/badges/license/goofball222/factorio.svg)](https://microbadger.com/images/goofball222/factorio)
+[![Docker Build Status](https://img.shields.io/docker/cloud/build/goofball222/factorio.svg)](https://hub.docker.com/r/goofball222/factorio/) [![Docker Pulls](https://img.shields.io/docker/pulls/goofball222/factorio.svg)](https://hub.docker.com/r/goofball222/factorio/) [![Docker Stars](https://img.shields.io/docker/stars/goofball222/factorio.svg)](https://hub.docker.com/r/goofball222/factorio/) 
 
-## Docker tags:
-| Tag | Factorio Version | Description | Release Date |
+| Docker Tag | Factorio Version | Description | Release Date |
 | --- | :---: | --- | :---: |
-| [latest](https://github.com/goofball222/factorio/blob/master/stable/Dockerfile) | [1.1.19](https://forums.factorio.com/94988) | Factorio headless server stable release | 2021-01-29 |
+| [latest, stable](https://github.com/goofball222/factorio/blob/master/stable/Dockerfile) | [1.1.19](https://forums.factorio.com/94988) | Factorio headless server stable release | 2021-01-29 |
 | [experimental](https://github.com/goofball222/factorio/blob/master/experimental/Dockerfile) | [1.1.19](https://forums.factorio.com/94988) | Factorio headless server experimental release | 2021-01-26 |
 | [1.1.19](https://github.com/goofball222/factorio/releases/tag/1.1.19) | [1.1.19](https://forums.factorio.com/87912) | Factorio headless server stable static release | 2021-01-29 |
 
