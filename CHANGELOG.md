@@ -1,3 +1,8 @@
+* **2021-02-08**
+    * Factorio version [1.1.21](https://forums.factorio.com/95730) promoted to stable
+    * Copy functionized script updates from experimental to stable
+    * Tag release 1.1.21
+---
 * **2021-02-05**
     * Experimental Factorio version [1.1.21](https://forums.factorio.com/95730)
 ---
