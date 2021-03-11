@@ -1,3 +1,8 @@
+* **2021-03-11**
+    * Experimental Factorio version [1.1.27](https://forums.factorio.com/96825)
+    * Factorio version [1.1.26](https://forums.factorio.com/96561) promoted to stable
+    * Tag release 1.1.26
+---
 * **2021-03-01**
     * Experimental Factorio version [1.1.26](https://forums.factorio.com/96561)
     * Factorio version [1.1.25](https://forums.factorio.com/96257) promoted to stable
