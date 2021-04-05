@@ -4,13 +4,13 @@
 
 | Docker Tag | Factorio Version | Description | Release Date |
 | --- | :---: | --- | :---: |
-| [latest, stable](https://github.com/goofball222/factorio/blob/master/stable/Dockerfile) | [1.1.27](https://forums.factorio.com/96825) | Factorio headless server stable release | 2021-03-15 |
-| [experimental](https://github.com/goofball222/factorio/blob/master/experimental/Dockerfile) | [1.1.30](https://forums.factorio.com/97284) | Factorio headless server experimental release | 2021-03-24 |
-| [1.1.27](https://github.com/goofball222/factorio/releases/tag/1.1.27) | [1.1.27](https://forums.factorio.com/96825) | Factorio headless server stable static release | 2021-03-15 |
+| [latest, stable](https://github.com/goofball222/factorio/blob/main/stable/Dockerfile) | [1.1.30](https://forums.factorio.com/97284) | Factorio headless server stable release | 2021-04-05 |
+| [experimental](https://github.com/goofball222/factorio/blob/main/experimental/Dockerfile) | [1.1.30](https://forums.factorio.com/97284) | Factorio headless server experimental release | 2021-03-24 |
+| [1.1.30](https://github.com/goofball222/factorio/releases/tag/1.1.30) | [1.1.30](https://forums.factorio.com/96825) | Factorio headless server stable static release | 2021-04-05 |
 
 ---
 
-* [Recent changes, see: GitHub CHANGELOG.md](https://github.com/goofball222/factorio/blob/master/CHANGELOG.md)
+* [Recent changes, see: GitHub CHANGELOG.md](https://github.com/goofball222/factorio/blob/main/CHANGELOG.md)
 * [Report any bugs, issues or feature requests on GitHub](https://github.com/goofball222/factorio/issues)
 
 ---
@@ -91,7 +91,7 @@ services:
 
 ```
 
-[Example basic `docker-compose.yml` file](https://raw.githubusercontent.com/goofball222/factorio/master/examples/docker-compose.yml)
+[Example basic `docker-compose.yml` file](https://raw.githubusercontent.com/goofball222/factorio/main/examples/docker-compose.yml)
 
 ---
 
