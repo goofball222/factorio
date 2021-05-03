@@ -1,3 +1,6 @@
+* **2021-05-03**
+    * Experimental Factorio version v[1.1.33](https://forums.factorio.com/98176)
+---
 * **2021-04-16**
     * Move stable to Factorio v[1.1.32](https://forums.factorio.com/97844)
     * Move experimental to Factorio v[1.1.32](https://forums.factorio.com/97844)
