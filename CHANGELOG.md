@@ -1,3 +1,7 @@
+* **2021-06-17**
+    * Experimental Factorio version v[1.1.35](https://forums.factorio.com/98877)
+    * Switch to GitHub actions for building
+---
 * **2021-05-29**
     * Move stable to Factorio v[1.1.34](https://forums.factorio.com/98531)
     * Tag release 1.1.34

@@ -1,11 +1,11 @@
 # Containerized Factorio Headless Server
 
-[![Docker Build Status](https://img.shields.io/docker/cloud/build/goofball222/factorio.svg)](https://hub.docker.com/r/goofball222/factorio/) [![Docker Pulls](https://img.shields.io/docker/pulls/goofball222/factorio.svg)](https://hub.docker.com/r/goofball222/factorio/) [![Docker Stars](https://img.shields.io/docker/stars/goofball222/factorio.svg)](https://hub.docker.com/r/goofball222/factorio/)
+[![Latest Build Status](https://github.com/goofball222/factorio/actions/workflows/build-latest.yml/badge.svg)](https://github.com/goofball222/factorio/actions/workflows/build-latest.yml) [![Docker Pulls](https://img.shields.io/docker/pulls/goofball222/factorio.svg)](https://hub.docker.com/r/goofball222/factorio/) [![Docker Stars](https://img.shields.io/docker/stars/goofball222/factorio.svg)](https://hub.docker.com/r/goofball222/factorio/) [![MB License](https://images.microbadger.com/badges/license/goofball222/factorio.svg)](https://microbadger.com/images/goofball222/factorio)
 
 | Docker Tag | Factorio Version | Description | Release Date |
 | --- | :---: | --- | :---: |
 | [latest, stable](https://github.com/goofball222/factorio/blob/main/stable/Dockerfile) | [1.1.34](https://forums.factorio.com/98531) | Factorio headless server stable release | 2021-05-24 |
-| [experimental](https://github.com/goofball222/factorio/blob/main/experimental/Dockerfile) | [1.1.34](https://forums.factorio.com/98531)| Factorio headless server experimental release | 2021-05-24 |
+| [experimental](https://github.com/goofball222/factorio/blob/main/experimental/Dockerfile) | [1.1.35](https://forums.factorio.com/98877)| Factorio headless server experimental release | 2021-06-17 |
 | [1.1.34](https://github.com/goofball222/factorio/releases/tag/1.1.34) | [1.1.34](https://forums.factorio.com/98531) | Factorio headless server stable static release | 2021-05-14 |
 
 ---
