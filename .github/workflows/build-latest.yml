@@ -28,6 +28,23 @@ jobs:
             ${{ github.repository }}
             ghcr.io/${{ github.repository }}
           tags: |
+            type=raw,latest-alpine
+            type=raw,stable-alpine
+#            type=raw,${{ steps.getargs.outputs.version }}-alpine
+          labels: |
+            org.opencontainers.image.vendor=The Goofball - goofball222@gmail.com
+            org.opencontainers.image.title=Factiorio Headless Server
+            org.opencontainers.image.description=Factiorio Headless Server
+            org.opencontainers.image.version=${{ steps.getargs.outputs.version }}-Alpine
+      -
+        name: Set up Docker metadata for Debian
+        id: meta-debian
+        uses: docker/metadata-action@v3
+        with:
+          images: |
+            ${{ github.repository }}
+            ghcr.io/${{ github.repository }}
+          tags: |
             type=raw,latest
             type=raw,stable
 #            type=raw,${{ steps.getargs.outputs.version }}
@@ -35,7 +52,7 @@ jobs:
             org.opencontainers.image.vendor=The Goofball - goofball222@gmail.com
             org.opencontainers.image.title=Factiorio Headless Server
             org.opencontainers.image.description=Factiorio Headless Server
-            org.opencontainers.image.version=${{ steps.getargs.outputs.version }}
+            org.opencontainers.image.version=${{ steps.getargs.outputs.version }}-Debian
       -
         name: Set up QEMU
         uses: docker/setup-qemu-action@v1
@@ -60,9 +77,20 @@ jobs:
         uses: docker/build-push-action@v2
         with:
           context: ./stable
-          file: ./stable/Dockerfile
+          file: ./stable/Dockerfile.alpine
           platforms: linux/amd64
           push: ${{ github.event_name != 'pull_request' }}
           tags: ${{ steps.meta-alpine.outputs.tags }}
           labels: ${{ steps.meta-alpine.outputs.labels }}
+          build-args: VERSION=${{ steps.getargs.outputs.version }}
+      -
+        name: Build and push Debian Docker image
+        uses: docker/build-push-action@v2
+        with:
+          context: ./stable
+          file: ./stable/Dockerfile
+          platforms: linux/amd64
+          push: ${{ github.event_name != 'pull_request' }}
+          tags: ${{ steps.meta-debian.outputs.tags }}
+          labels: ${{ steps.meta-debian.outputs.labels }}
           build-args: VERSION=${{ steps.getargs.outputs.version }}

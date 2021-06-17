@@ -3,8 +3,8 @@
 # Init script for Factorio headless server Docker container
 # License: Apache-2.0
 # Github: https://github.com/goofball222/factorio
-SCRIPT_VERSION="1.3.0"
-# Last updated date: 2021-01-29
+SCRIPT_VERSION="1.4.0"
+# Last updated date: 2021-06-17
 
 set -Eeuo pipefail
 
@@ -25,8 +25,11 @@ SCENARIODIR=${BASEDIR}/scenarios
 
 FACTORIO=${BINDIR}/x64/factorio
 
-VOLDIR="/factorio"
+VOLDIR=${VOLDIR:-"/factorio"}
+VOLCONFIGDIR=${VOLDIR}/config
+VOLMODDIR=${VOLDIR}/mods
 VOLSAVEDIR=${VOLDIR}/saves
+VOLSCENARIODIR=${VOLDIR}/scenarios
 
 f_log "INFO - Script version ${SCRIPT_VERSION}"
 f_log "INFO - Entrypoint functions version ${ENTRYPOINT_FUNCTIONS_VERSION}"
@@ -74,11 +77,22 @@ if [ "$(id -u)" = '0' ]; then
             exec ${FACTORIO} ${FACTORIO_OPTS} &
             f_idle_handler
         else
-            f_log "INFO - Use su-exec to drop priveleges and start Factorio Headless as GID=${PGID}, UID=${PUID}"
-            f_log "EXEC - su-exec factorio:factorio ${FACTORIO} ${FACTORIO_OPTS}"
-            exec 0<&-
-            exec su-exec factorio:factorio ${FACTORIO} ${FACTORIO_OPTS} &
-            f_idle_handler
+            if [ -x "/sbin/su-exec" ]; then
+                f_log "INFO - Use su-exec to drop priveleges and start Factorio Headless as GID=${PGID}, UID=${PUID}"
+                f_log "EXEC - su-exec factorio:factorio ${FACTORIO} ${FACTORIO_OPTS}"
+                exec 0<&-
+                exec su-exec factorio:factorio ${FACTORIO} ${FACTORIO_OPTS} &
+                f_idle_handler
+            elif [ -x "/usr/sbin/gosu" ]; then
+                f_log "INFO - Use gosu to drop privileges and start Factorio Headless as GID=${PGID}, UID=${PUID}"
+                f_log "EXEC - gosu factorio:factorio ${FACTORIO} ${FACTORIO_OPTS}"
+                exec 0<&-
+                exec gosu factorio:factorio ${FACTORIO} ${FACTORIO_OPTS} &
+                f_idle_handler
+            else
+                f_log "ERROR - su-exec/gosu NOT FOUND. Run state is invalid. Exiting."
+                exit 1;
+            fi
         fi
     else
         f_log "EXEC - ${@} as UID 0 (root)"

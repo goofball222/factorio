@@ -3,8 +3,8 @@
 # entrypoint-functions.sh script for Factorio headless server Docker container
 # License: Apache-2.0
 # Github: https://github.com/goofball222/factorio
-ENTRYPOINT_FUNCTIONS_VERSION="1.0.1"
-# Last updated date: 2021-01-29
+ENTRYPOINT_FUNCTIONS_VERSION="1.1.0"
+# Last updated date: 2021-06-17
 
 f_chkdir() {
     # Make sure required directories exist in ${VOLDIR} - IE: new install with empty volume on host mapped over default volume
@@ -17,11 +17,11 @@ f_chkdir() {
 f_chown() {
     if [ "${RUN_CHOWN}" == 'false' ]; then
         if [ ! "$(stat -c %u ${BASEDIR})" = "${PUID}" ] || [ ! "$(stat -c %u ${VOLDIR})" = "${PUID}" ] \
-        || [ ! "$(stat -c %u ${CONFIGDIR})" = "${PUID}" ] || [ ! "$(stat -c %u ${DATADIR})" = "${PUID}" ] \
-        || [ ! "$(stat -c %u ${MODDIR})" = "${PUID}" ] || [ ! "$(stat -c %u ${SAVEDIR})" = "${PUID}" ] \
-        || [ ! "$(stat -c %u ${SCENARIODIR})" = "${PUID}" ]; then
+        || [ ! "$(stat -c %u ${VOLCONFIGDIR})" = "${PUID}" ] || [ ! "$(stat -c %u ${DATADIR})" = "${PUID}" ] \
+        || [ ! "$(stat -c %u ${VOLMODDIR})" = "${PUID}" ] || [ ! "$(stat -c %u ${VOLSAVEDIR})" = "${PUID}" ] \
+        || [ ! "$(stat -c %u ${VOLSCENARIODIR})" = "${PUID}" ]; then
             f_log "WARN - Configured PUID doesn't match owner of a required directory. Ignoring RUN_CHOWN=false"
-            f_log "INFO - Ensuring permissions are correct before continuing - 'chown -R factorio:factorio ${BASEDIR}'"
+            f_log "INFO - Ensuring permissions are correct before continuing - 'chown -R factorio:factorio ${BASEDIR} ${VOLDIR}'"
             f_log "INFO - Running recursive 'chown' on Docker overlay2 storage is **really** slow. This may take a bit."
             chown -R factorio:factorio ${BASEDIR} ${VOLDIR}
         else
@@ -63,7 +63,7 @@ f_load_save() {
 }
 
 f_log() {
-    echo "$(date -u +%FT$(nmeter -d0 '%3t' | head -n1)) <docker-entrypoint> $*"
+    echo "$(date +"[%Y-%m-%d %T,%3N]") <docker-entrypoint> $*"
 }
 
 f_setup() {
@@ -159,8 +159,16 @@ f_setup() {
         if [ ! -z "${FACTORIO_SCENARIO}" ]; then
             FACTORIO_OPTS="${FACTORIO_OPTS} --start-server-load-scenario ${FACTORIO_SCENARIO} --server-settings ${CONFIGDIR}/server-settings.json --server-id ${CONFIGDIR}/server-id.json"
         else
-            su-exec factorio:factorio ${FACTORIO} --create ${VOLSAVEDIR}/save.zip --map-gen-settings ${CONFIGDIR}/map-gen-settings.json
-            f_load_save
+            if [ -x "/sbin/su-exec" ]; then
+                su-exec factorio:factorio ${FACTORIO} --create ${VOLSAVEDIR}/save.zip --map-gen-settings ${CONFIGDIR}/map-gen-settings.json
+                f_load_save
+            elif [ -x "/usr/sbin/gosu" ]; then
+                gosu factorio:factorio ${FACTORIO} --create ${VOLSAVEDIR}/save.zip --map-gen-settings ${CONFIGDIR}/map-gen-settings.json
+                f_load_save
+            else
+                f_log "ERROR - su-exec/gosu NOT FOUND. Run state is invalid. Exiting."
+                exit 1;
+            fi
         fi
     else
         f_log "INFO - Loading ${SAVE_NAME}.zip found in ${SAVEDIR}"

@@ -1,4 +1,4 @@
-FROM frolvlad/alpine-glibc:latest
+FROM debian:buster-slim
 
 ARG BUILD_DATE
 ARG VCS_REF
@@ -16,6 +16,7 @@ LABEL \
     org.opencontainers.image.licenses="Apache-2.0"
 
 ENV \
+    DEBIAN_FRONTEND=noninteractive \
     DEBUG=false \
     PGID=999 \
     PUID=999 \
@@ -28,13 +29,13 @@ COPY root /
 
 RUN \
     set -x \
-    && delgroup ping \
-    && addgroup -g $PGID factorio \
-    && adduser -D -G factorio -u $PUID factorio \
-    && apk add -q --no-cache --virtual .build-deps \
-        curl \
-    && apk add -q --no-cache \
-        bash shadow su-exec tzdata \
+    && groupadd -r factorio -g $PGID \
+    && useradd --no-log-init -r -u $PUID -g $PGID factorio \
+    && mkdir /usr/share/man/man1 \
+    && apt-get -qqy update \
+    && apt-get -qqy install apt-utils \
+    && apt-get -qqy --no-install-recommends install \
+        ca-certificates curl gosu xz-utils > /dev/null \
     && curl -sSL https://www.factorio.com/get-download/$VERSION/headless/linux64 -o /tmp/factorio_headless_x64_$VERSION.tar.xz \
     && tar -xJf /tmp/factorio_headless_x64_$VERSION.tar.xz -C /opt \
     && bash -c 'mkdir -p {/factorio,/factorio/config,/factorio/mods,/factorio/saves,/factorio/scenarios}' \
@@ -42,9 +43,10 @@ RUN \
     && ln -s /factorio/mods /opt/factorio/mods \
     && ln -s /factorio/saves /opt/factorio/saves \
     && ln -s /factorio/scenarios /opt/factorio/scenarios \
+    && apt-get -qqy purge \
+        apt-utils ca-certificates curl xz-utils > /dev/null \
     && chown -R factorio:factorio /opt/factorio /factorio \
-    && apk del -q --purge .build-deps \
-    && rm -rf /tmp/* /var/cache/apk/*
+    && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /var/log/*
 
 EXPOSE 34197/udp 27015/tcp
 

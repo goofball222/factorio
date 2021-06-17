@@ -1,6 +1,8 @@
 * **2021-06-17**
     * Experimental Factorio version v[1.1.35](https://forums.factorio.com/98877)
     * Switch to GitHub actions for building
+    * Switch base image from frolvlad/alpine-glibc:latest to debian:buster-slim to fix issue #22
+    * Move Alpine images to Dockerfile.alpine and -alpine tags
 ---
 * **2021-05-29**
     * Move stable to Factorio v[1.1.34](https://forums.factorio.com/98531)
