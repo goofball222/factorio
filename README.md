@@ -1,10 +1,10 @@
 # Containerized Factorio Headless Server
 
-[![Latest Build Status](https://github.com/goofball222/factorio/actions/workflows/build-latest.yml/badge.svg)](https://github.com/goofball222/factorio/actions/workflows/build-latest.yml) [![Docker Pulls](https://img.shields.io/docker/pulls/goofball222/factorio.svg)](https://hub.docker.com/r/goofball222/factorio/) [![Docker Stars](https://img.shields.io/docker/stars/goofball222/factorio.svg)](https://hub.docker.com/r/goofball222/factorio/) [![MB License](https://images.microbadger.com/badges/license/goofball222/factorio.svg)](https://microbadger.com/images/goofball222/factorio)
+[![Latest Build Status](https://github.com/goofball222/factorio/actions/workflows/build-latest.yml/badge.svg)](https://github.com/goofball222/factorio/actions/workflows/build-latest.yml) [![Docker Pulls](https://img.shields.io/docker/pulls/goofball222/factorio.svg)](https://hub.docker.com/r/goofball222/factorio/) [![Docker Stars](https://img.shields.io/docker/stars/goofball222/factorio.svg)](https://hub.docker.com/r/goofball222/factorio/) [![License](https://img.shields.io/github/license/goofball222/factorio.svg)](https://github.com/goofball222/factorio)
 
 | Docker Tag | Factorio Version | Description | Release Date |
 | --- | :---: | --- | :---: |
-| [latest, stable](https://github.com/goofball222/factorio/blob/main/stable/Dockerfile) | [1.1.39](https://forums.factorio.com/99796) | Factorio headless server stable release | 2021-09-08 |
+| [latest, stable](https://github.com/goofball222/factorio/blob/main/stable/Dockerfile) | [1.1.41](https://forums.factorio.com/100042) | Factorio headless server stable release | 2021-10-05 |
 | [experimental](https://github.com/goofball222/factorio/blob/main/experimental/Dockerfile) | [1.1.41](https://forums.factorio.com/100042)| Factorio headless server experimental release | 2021-09-23 |
 | [1.1.39](https://github.com/goofball222/factorio/releases/tag/1.1.39) | [1.1.39](https://forums.factorio.com/99796) | Factorio headless server stable static release | 2021-09-08 |
 
