@@ -1,3 +1,8 @@
+* **2021-11-22**
+    * Experimental Factorio v[1.1.47](https://forums.factorio.com/100691)
+    * Move Factorio v[1.1.46](https://forums.factorio.com/100513) to latest/stable
+    * Tag release 1.1.46
+---
 * **2021-11-05**
     * Experimental Factorio v[1.1.46](https://forums.factorio.com/100513)
 ---
