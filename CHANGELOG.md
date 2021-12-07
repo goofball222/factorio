@@ -1,3 +1,6 @@
+* **2021-12-07**
+    * Experimental Factorio v[1.1.49](https://forums.factorio.com/100856)
+---
 * **2021-11-26**
     * Move Factorio v[1.1.48](https://forums.factorio.com/100740) to latest/stable
         * Thanks [sYnHybrid](https://github.com/sYnHybrid)!
