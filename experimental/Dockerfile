@@ -33,7 +33,7 @@ RUN \
     && useradd --no-log-init -r -u $PUID -g $PGID factorio \
     && mkdir -p /usr/share/man/man1 \
     && apt-get -qqy update \
-    && apt-get -qqy install apt-utils \
+    && apt-get -qqy install apt-utils procps \
     && apt-get -qqy --no-install-recommends install \
         ca-certificates curl gosu xz-utils > /dev/null \
     && curl -sSL https://www.factorio.com/get-download/$VERSION/headless/linux64 -o /tmp/factorio_headless_x64_$VERSION.tar.xz \
