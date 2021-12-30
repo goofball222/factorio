@@ -35,7 +35,7 @@ RUN \
     && apt-get -qqy update \
     && apt-get -qqy install apt-utils \
     && apt-get -qqy --no-install-recommends install \
-        ca-certificates curl gosu xz-utils procps > /dev/null \
+        ca-certificates curl gosu procps xz-utils > /dev/null \
     && curl -sSL https://www.factorio.com/get-download/$VERSION/headless/linux64 -o /tmp/factorio_headless_x64_$VERSION.tar.xz \
     && tar -xJf /tmp/factorio_headless_x64_$VERSION.tar.xz -C /opt \
     && bash -c 'mkdir -p {/factorio,/factorio/config,/factorio/mods,/factorio/saves,/factorio/scenarios}' \
