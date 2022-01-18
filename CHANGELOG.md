@@ -1,3 +1,6 @@
+* **2022-01-18**
+    * Experimental Factorio v[1.1.51](https://forums.factorio.com/101273)
+---
 * **2021-12-29**
     * Move Factorio v[1.1.50](https://forums.factorio.com/100986) to latest/stable
     * Merge PR from [pliesveld](https://github.com/pliesveld) that adds missing procps package to Debian image
