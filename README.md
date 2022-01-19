@@ -5,7 +5,7 @@
 | Docker Tag | Factorio Version | Description | Release Date |
 | --- | :---: | --- | :---: |
 | [latest, stable](https://github.com/goofball222/factorio/blob/main/stable/Dockerfile) | [1.1.50](https://forums.factorio.com/100986) | Factorio headless server stable release | 2021-12-29 |
-| [experimental](https://github.com/goofball222/factorio/blob/main/experimental/Dockerfile) | [1.1.52](https://forums.factorio.com/101280)| Factorio headless server experimental release | 2022-01-18 |
+| [experimental](https://github.com/goofball222/factorio/blob/main/experimental/Dockerfile) | [1.1.53](https://forums.factorio.com/101296)| Factorio headless server experimental release | 2022-01-19 |
 | [1.1.50](https://github.com/goofball222/factorio/releases/tag/1.1.50) | [1.1.50](https://forums.factorio.com/100986) | Factorio headless server stable static release | 2021-12-29 |
 
 ---
