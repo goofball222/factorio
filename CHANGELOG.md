@@ -1,3 +1,6 @@
+* **2022-03-12**
+    * Set shutdown process kill timeout to 5 minutes, allow complex servers time to save gracefully (closes #29)
+---
 * **2022-03-09**
     * Experimental Factorio v[1.1.56](https://forums.factorio.com/101801)
 ---

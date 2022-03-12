@@ -3,8 +3,8 @@
 # Init script for Factorio headless server Docker container
 # License: Apache-2.0
 # Github: https://github.com/goofball222/factorio
-SCRIPT_VERSION="1.4.0"
-# Last updated date: 2021-06-17
+SCRIPT_VERSION="1.4.1"
+# Last updated date: 2022-03-12
 
 set -Eeuo pipefail
 
@@ -39,11 +39,11 @@ cd ${BASEDIR}
 f_exit_handler() {
     f_log "INFO - Exit signal received, commencing shutdown"
     pkill -15 -f ${FACTORIO}
-    for i in `seq 0 9`;
+    for i in `seq 0 299`;
         do
             [ -z "$(pgrep -f ${FACTORIO})" ] && break
-            # kill it with fire if it hasn't stopped itself after 9 seconds
-            [ $i -gt 8 ] && pkill -9 -f ${FACTORIO} || true
+            # kill it with fire if it hasn't stopped itself after 5 minutes
+            [ $i -gt 298 ] && pkill -9 -f ${FACTORIO} || true
             sleep 1
     done
     f_log "INFO - Shutdown complete. Nothing more to see here. Have a nice day!"
