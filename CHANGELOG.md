@@ -1,3 +1,9 @@
+* **2022-04-01**
+    * Experimental Factorio v[1.1.57](https://forums.factorio.com/101801)
+    * Stable Factorio v[1.1.57](https://forums.factorio.com/101801) via PR #30
+        * Thanks [bourgeois](https://github.com/bourgeois)
+    * Tag & release v1.1.57
+---
 * **2022-03-12**
     * Set shutdown process kill timeout to 5 minutes, allow complex servers time to save gracefully (closes #29)
 ---
