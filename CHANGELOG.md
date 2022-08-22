@@ -1,3 +1,6 @@
+* **2022-08-22**
+    * Experimental Factorio v[1.1.68](https://forums.factorio.com/103205)
+---
 * **2022-08-19**
     * Experimental Factorio v[1.1.67](https://forums.factorio.com/103181)
 ---
