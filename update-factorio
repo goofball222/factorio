@@ -2,8 +2,8 @@
 # A simple script to easily detect and fetch new factorio docker images
 #   1. download latest factorio image
 #   2. stop factorio
-#   3. start factorio
-#   4. remove unused images
+#   3. backup the /saves folder
+#   4. start factorio
 
 echo "############################"
 echo "Version of 'latest' tag: $(curl -s https://raw.githubusercontent.com/goofball222/factorio/main/stable/VERSION)"
