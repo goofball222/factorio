@@ -15,8 +15,7 @@ PS3="Select the image tag: "
 
 select tag in latest experimental
 do
-        echo "pulling image: $tag"
-        echo "Pulling latest factorio image..."
+        echo "Pulling image: $tag ..."
         docker pull goofball222/factorio:$tag
         echo "Pulling done"
 

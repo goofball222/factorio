@@ -1,0 +1,15 @@
+version: '3'
+
+services:
+  factorio:
+    image: goofball222/factorio:experimental
+    container_name: factorio
+    restart: unless-stopped
+    ports:
+      - "27015:27015"
+      - "34197:34197/udp"
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - .:/factorio
+    environment:
+      - TZ=UTC+2
