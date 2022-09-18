@@ -6,8 +6,8 @@
 #   4. remove unused images
 
 echo "############################"
-echo "Version of 'latest' tag: $(curl -s https://raw.githubusercontent.com/goofball222/factorio>
-echo "Version of 'experimental' tag: $(curl -s https://raw.githubusercontent.com/goofball222/fa>
+echo "Version of 'latest' tag: $(curl -s https://raw.githubusercontent.com/goofball222/factorio/main/stable/VERSION)"
+echo "Version of 'experimental' tag: $(curl -s https://raw.githubusercontent.com/goofball222/factorio/main/experimental/VERSION)"
 echo "############################"
 
 backup_timestamp=$(date +"%m_%d_%Y__%H_%M")
