@@ -1,0 +1,36 @@
+#!/bin/bash
+# A simple script to easily detect and fetch new factorio docker images
+#   1. download latest factorio image
+#   2. stop factorio
+#   3. start factorio
+#   4. remove unused images
+
+echo "############################"
+echo "Version of 'latest' tag: $(curl -s https://raw.githubusercontent.com/goofball222/factorio>
+echo "Version of 'experimental' tag: $(curl -s https://raw.githubusercontent.com/goofball222/fa>
+echo "############################"
+
+backup_timestamp=$(date +"%m_%d_%Y__%H_%M")
+PS3="Select the image tag: "
+
+select tag in latest experimental
+do
+        echo "pulling image: $tag"
+        echo "Pulling latest factorio image..."
+        docker pull goofball222/factorio:$tag
+        echo "Pulling done"
+
+        echo "Stopping factorio container..."
+        docker-compose down
+        echo "Container stopped"
+
+        echo "Backing up savegames... "
+        mkdir backup_$backup_timestamp
+        cp -r saves/ backup_$backup_timestamp
+        echo "Savegames backed up to backup_${backup_timestamp}"
+
+        echo "Starting factorio container..."
+        docker-compose up -d
+        echo "Container started"
+        break
+done
