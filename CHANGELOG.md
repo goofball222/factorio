@@ -1,3 +1,6 @@
+* **2022-12-06**
+    * Experimental Factorio v[1.1.74](https://forums.factorio.com/104347)
+---
 * **2022-12-05**
     * Stable Factorio v[1.1.72](https://forums.factorio.com/104069)
     * Tag & release v1.1.72
