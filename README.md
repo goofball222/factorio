@@ -2,11 +2,11 @@
 
 [![Latest Build Status](https://github.com/goofball222/factorio/actions/workflows/build-latest.yml/badge.svg)](https://github.com/goofball222/factorio/actions/workflows/build-latest.yml) [![Docker Pulls](https://img.shields.io/docker/pulls/goofball222/factorio.svg)](https://hub.docker.com/r/goofball222/factorio/) [![Docker Stars](https://img.shields.io/docker/stars/goofball222/factorio.svg)](https://hub.docker.com/r/goofball222/factorio/) [![License](https://img.shields.io/github/license/goofball222/factorio.svg)](https://github.com/goofball222/factorio)
 
-| Docker Tag | Factorio Version | Description | Release Date |
-| --- | :---: | --- | :---: |
-| [latest, stable](https://github.com/goofball222/factorio/blob/main/stable/Dockerfile) | [1.1.80](https://forums.factorio.com/105761) | Factorio headless server stable release | 2023-03-30 |
-| [experimental](https://github.com/goofball222/factorio/blob/main/experimental/Dockerfile) | [1.1.80](https://forums.factorio.com/105761)| Factorio headless server experimental release | 2023-03-30 |
-| [1.1.80](https://github.com/goofball222/factorio/releases/tag/1.1.80) | [1.1.80](https://forums.factorio.com/105761) | Factorio headless server stable static release | 2023-03-30 |
+| Docker Tag                                                                                |               Factorio Version               | Description                                    | Release Date |
+| ----------------------------------------------------------------------------------------- | :------------------------------------------: | ---------------------------------------------- | :----------: |
+| [latest, stable](https://github.com/goofball222/factorio/blob/main/stable/Dockerfile)     | [1.1.80](https://forums.factorio.com/105761) | Factorio headless server stable release        |  2023-03-30  |
+| [experimental](https://github.com/goofball222/factorio/blob/main/experimental/Dockerfile) | [1.1.80](https://forums.factorio.com/105761) | Factorio headless server experimental release  |  2023-03-30  |
+| [1.1.80](https://github.com/goofball222/factorio/releases/tag/1.1.80)                     | [1.1.80](https://forums.factorio.com/105761) | Factorio headless server stable static release |  2023-03-30  |
 
 ---
 
@@ -69,9 +69,10 @@ $ docker run --name factorio -d \
 
 **Recommended: run via [Docker Compose](https://docs.docker.com/compose/):**
 
-Have the container store the config, mods, saves, and scenarios on a local file-system or in a specific, known data volume (recommended for persistence and troubleshooting) and expose the RCON port for admin:
+The following is instructions on how to create a server, load it with your own scenario, save, mods, and configs. The [docker-compose.yml example](https://raw.githubusercontent.com/goofball222/factorio/main/examples/docker-compose.yml) shown below is in the `examples` folder of this repo.
 
 ```bash
+# docker-compose.yml
 
 version: '3'
 
@@ -91,34 +92,83 @@ services:
 
 ```
 
-[Example basic `docker-compose.yml` file](https://raw.githubusercontent.com/goofball222/factorio/main/examples/docker-compose.yml)
+Create a folder that contains the things you want copied into the server, like so:
 
----
+```bash
+user@computer:~/my-factorio-server$ tree
+.
+├── config
+│   ├── RCON.pwd
+│   ├── config.ini
+│   ├── map-gen-settings.json
+│   └── server-settings.json
+├── docker-compose.yml
+├── mods
+│   ├── mod-list.json
+│   ├── mod-settings.dat
+│   ├── space-exploration-graphics_0.6.13.zip
+│   └── space-exploration_0.6.90.zip
+└── saves
+    └── save.zip
 
-**Logs are available directly from the running container, IE: "docker logs factorio"**
+3 directories, 13 files
+```
+
+All of these files are optional. You can put the docker-compose.yml in an empty folder and start it and be fine. However doing this would be equivalent to the `docker run` command shown above.
+
+If no `save.zip` is provided, a new game will be made. 
+
+  > Note: the savegame must be named save.zip in the saves/ folder.
+
+If no mods are provided, it will be vanilla.
+
+  > Note: the server will not sync mods to the savegame like it does in singleplayer. You need to get the mods and put them in the `mods/` folder.
+
+If any of the files in config/ is not provided, they will be loaded from default.
+
+  > Note: If you want to make this a public server, you need to edit server-settings.json with your username and token. See [the wiki page.](https://wiki.factorio.com/Multiplayer#How_to_list_a_server-hosted_game_on_the_matching_server)
+
+  > If there is no config/RCON.pwd, or a FACTORIO_RCON_PASSWORD environment variable, a random RCON password will be generated and saved in `/factorio/config/RCON.pwd`. This randomly generated password can be found at the start of the container log file at each launch.
+
+You do not need to clone this repo or download the image from dockerhub. The docker-compose.yml saying `image: goofball222/factorio` means docker will download it for you.
+
+Once the folders and everything is loaded up like the tree, omitting anything you don't mind being the default:
+
+ `cd` into that folder (in the above example, it would be `cd ~/my-factorio-server`)
+
+To start the server: `docker-compose up`
+
+To stop the server: `docker-compose down`
+
+To rebuild the server (for example after making a config change, or changing the `save.zip`): `docker compose up --force-rebuild -d`
+
+To inspect server logs: `docker-compose logs`
+
+To inspect server logs without being cd'd into the folder: `docker logs factorio`
+
+> Note: if you want running logs, use `docker-compose logs -f` or `docker logs factorio -f`, replacing `factorio` with whatever the name of the image was set to in docker-compose.yml.
+
+Also note that doing this, the `save.zip`, and everything else will be mirrored on either side. The docker image will write to its version of `save.zip`, which logically is the same file byte-for-byte as the one in `my-factorio-server`. This means you can backup your savegame easily.
+
 
 ---
 
 **Environment variables:**
 
-| Variable | Default | Description |
-| :--- | :---: | --- |
-| `DEBUG` | ***false*** | Set to *true* for extra container verbosity for debugging |
-| `FACTORIO_OPTS` | ***unset*** | Add custom command line options to factorio server executable at runtime |
-| `FACTORIO_PORT` | ***unset*** | Override server default port for game client connections |
-| `FACTORIO_RCON_PASSWORD` | ***unset*** | Specifiy the server RCON password |
-| `FACTORIO_RCON_PORT` | ***27015*** | Specifies the server RCON admin port |
-| `FACTORIO_SCENARIO` | ***unset*** | Specifies a scenario name for the server to run |
-| `PGID` | ***999*** | Specifies the GID for the container internal factorio group (used for file ownership) |
-| `PUID` | ***999*** | Specifies the UID for the container internal factorio user (used for process and file ownership) |
-| `RUN_CHOWN` | ***true*** | Set to *false* to disable the container automatic `chown` at startup. Speeds up startup process on overlay2 Docker hosts. **NB/IMPORTANT:** It's critical that you insure directory/data permissions on all mapped volumes are correct before disabling this or Factorio will not start. |
-| `RUNAS_UID0` | ***false*** | Set to *true* to force the container to run the Factorio server process as UID=0 (root) - **NB/IMPORTANT:** running with this set to "true" is insecure |
+| Variable                 |   Default   | Description                                                                                                                                                                                                                                                                              |
+| :----------------------- | :---------: | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `DEBUG`                  | ***false*** | Set to *true* for extra container verbosity for debugging                                                                                                                                                                                                                                |
+| `FACTORIO_OPTS`          | ***unset*** | Add custom command line options to factorio server executable at runtime                                                                                                                                                                                                                 |
+| `FACTORIO_PORT`          | ***unset*** | Override server default port for game client connections                                                                                                                                                                                                                                 |
+| `FACTORIO_RCON_PASSWORD` | ***unset*** | Specifiy the server RCON password                                                                                                                                                                                                                                                        |
+| `FACTORIO_RCON_PORT`     | ***27015*** | Specifies the server RCON admin port                                                                                                                                                                                                                                                     |
+| `FACTORIO_SCENARIO`      | ***unset*** | Specifies a scenario name for the server to run                                                                                                                                                                                                                                          |
+| `PGID`                   |  ***999***  | Specifies the GID for the container internal factorio group (used for file ownership)                                                                                                                                                                                                    |
+| `PUID`                   |  ***999***  | Specifies the UID for the container internal factorio user (used for process and file ownership)                                                                                                                                                                                         |
+| `RUN_CHOWN`              | ***true***  | Set to *false* to disable the container automatic `chown` at startup. Speeds up startup process on overlay2 Docker hosts. **NB/IMPORTANT:** It's critical that you insure directory/data permissions on all mapped volumes are correct before disabling this or Factorio will not start. |
+| `RUNAS_UID0`             | ***false*** | Set to *true* to force the container to run the Factorio server process as UID=0 (root) - **NB/IMPORTANT:** running with this set to "true" is insecure                                                                                                                                  |
 
 ---
-
-During the first launch of the container the server-settings.json and map-gen-settings.json config files will be populated with the Factorio sample/defaults if they don't already exist. It is highly recommended to edit these files and relaunch the container afterwards or provide pre-setup copies in the config directory prior to first launch. The config sample files are available in the headless server tar.gz file in the "data" folder. The container will also generate a default map / save.zip in the saves folder if one is not found on launch.
-
-The RCON password can be set via the FACTORIO_RCON_PASSWORD ENV flag or loaded from `/factorio/config/RCON.pwd` each time the container is started. If the FACTORIO_RCON_PASSWORD ENV var is not set or the RCON.pwd file is not present a random RCON password will be generated and saved in `/factorio/config/RCON.pwd`. The active RCON password can also be found at the start of the container log file at each launch.
 
 ---
 
