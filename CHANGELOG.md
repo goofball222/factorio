@@ -1,3 +1,7 @@
+* **2023-09-21**
+    * Stable Factorio v[1.1.91](https://forums.factorio.com/108687)
+    * Tag & release v1.1.91
+---
 * **2023-09-13**
     * Stable Factorio v[1.1.87](https://forums.factorio.com/107634)
     * Tag & release v1.1.87
