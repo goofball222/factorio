@@ -1,3 +1,6 @@
+* **2023-10-27**
+    * Experimental Factorio v[1.1.94](https://forums.factorio.com/109267)
+---
 * **2023-10-16**
     * Experimental Factorio v[1.1.92](https://forums.factorio.com/108908)
 ---
