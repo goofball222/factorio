@@ -33,7 +33,7 @@ jobs:
             type=raw,stable-alpine
 #            type=raw,${{ steps.getargs.outputs.version }}-alpine
           labels: |
-            org.opencontainers.image.vendor=The Goofball - goofball222@gmail.com
+            org.opencontainers.image.vendor=Edro
             org.opencontainers.image.title=Factiorio Headless Server
             org.opencontainers.image.description=Factiorio Headless Server
             org.opencontainers.image.version=${{ steps.getargs.outputs.version }}-Alpine
@@ -50,7 +50,7 @@ jobs:
             type=raw,stable
 #            type=raw,${{ steps.getargs.outputs.version }}
           labels: |
-            org.opencontainers.image.vendor=The Goofball - goofball222@gmail.com
+            org.opencontainers.image.vendor=Edro
             org.opencontainers.image.title=Factiorio Headless Server
             org.opencontainers.image.description=Factiorio Headless Server
             org.opencontainers.image.version=${{ steps.getargs.outputs.version }}-Debian

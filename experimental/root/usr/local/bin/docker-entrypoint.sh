@@ -2,7 +2,7 @@
 
 # Init script for Factorio headless server Docker container
 # License: Apache-2.0
-# Github: https://github.com/goofball222/factorio
+# Github: https://github.com/JustEdro/factorio
 SCRIPT_VERSION="1.4.1"
 # Last updated date: 2022-03-12
 

@@ -26,17 +26,17 @@
     * Labels from container:
     IE:
     ```bash
-    user@host:~$ docker inspect goofball222/factorio:latest
+    user@host:~$ docker inspect edro/factorio:latest
     ...
                 "Labels": {
                     "org.label-schema.build-date": "2017-10-17T18:24:31Z",
                     "org.label-schema.license": "Apache-2.0",
                     "org.label-schema.name": "Factorio Headless Server",
                     "org.label-schema.schema-version": "1.0",
-                    "org.label-schema.url": "https://github.com/goofball222/factorio",
+                    "org.label-schema.url": "https://github.com/JustEdro/factorio",
                     "org.label-schema.vcs-ref": "003adec",
-                    "org.label-schema.vcs-url": "https://github.com/goofball222/factorio.git",
-                    "org.label-schema.vendor": "goofball222",
+                    "org.label-schema.vcs-url": "https://github.com/JustEdro/factorio.git",
+                    "org.label-schema.vendor": "Edro",
                     "org.label-schema.version": "0.15.37"
                 }
     ...
