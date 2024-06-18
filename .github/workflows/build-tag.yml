@@ -68,7 +68,7 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
       -
         name: Build and push Alpine Docker image
-        uses: docker/build-push-action@v5
+        uses: docker/build-push-action@v6
         with:
           context: ./stable
           file: ./stable/Dockerfile.alpine
@@ -79,7 +79,7 @@ jobs:
           build-args: VERSION=${{ steps.getargs.outputs.version }}
       -
         name: Build and push Debian Docker image
-        uses: docker/build-push-action@v5
+        uses: docker/build-push-action@v6
         with:
           context: ./stable
           file: ./stable/Dockerfile
