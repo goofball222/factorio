@@ -1,5 +1,6 @@
 * **2024-10-21**
     * Stable Factorio v[2.0.7](https://forums.factorio.com/116184)
+    * Update debian docker image
     * Tag & release v2.0.7
 ---
 * **2024-08-29**
