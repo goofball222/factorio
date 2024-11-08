@@ -1,3 +1,7 @@
+* **2024-11-08**
+  * Stable and experimental Factorio v[2.0.15](https://forums.factorio.com/119952)
+  * Tag & release v2.0.15
+---
 * **2024-11-03**
     * Stable and experimental Factorio v[2.0.14](https://forums.factorio.com/119048)
     * Tag & release v2.0.14
