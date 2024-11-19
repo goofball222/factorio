@@ -2,7 +2,7 @@
 
 [![Latest Build Status](https://github.com/goofball222/factorio/actions/workflows/build-latest.yml/badge.svg)](https://github.com/goofball222/factorio/actions/workflows/build-latest.yml) [![Docker Pulls](https://img.shields.io/docker/pulls/goofball222/factorio.svg)](https://hub.docker.com/r/goofball222/factorio/) [![Docker Stars](https://img.shields.io/docker/stars/goofball222/factorio.svg)](https://hub.docker.com/r/goofball222/factorio/) [![License](https://img.shields.io/github/license/goofball222/factorio.svg)](https://github.com/goofball222/factorio)
 
-| Docker Tag  | Factorio Version | Description | Release Date |
+| Docker Tag | Factorio Version | Description | Release Date |
 | --- | :---: | --- | :---: |
 | [latest, stable](https://github.com/goofball222/factorio/blob/main/stable/Dockerfile) | [2.0.20](https://forums.factorio.com/121972) | Factorio headless server stable release | 2024-11-19 |
 | [experimental](https://github.com/goofball222/factorio/blob/main/experimental/Dockerfile) | [2.0.20](https://forums.factorio.com/121972) | Factorio headless server experimental release | 2024-11-19 |
