@@ -4,9 +4,9 @@
 
 | Docker Tag | Factorio Version | Description | Release Date |
 | --- | :---: | --- | :---: |
-| [latest, stable](https://github.com/goofball222/factorio/blob/main/stable/Dockerfile) | [2.0.23](https://forums.factorio.com/123194) | Factorio headless server stable release | 2024-12-02 |
-| [experimental](https://github.com/goofball222/factorio/blob/main/experimental/Dockerfile) | [2.0.23](https://forums.factorio.com/123194) | Factorio headless server experimental release | 2024-12-02 |
-| [2.0.23](https://github.com/goofball222/factorio/releases/tag/2.0.23) | [2.0.23](https://forums.factorio.com/123194) | Factorio headless server stable static release | 2024-12-02 |
+| [latest, stable](https://github.com/goofball222/factorio/blob/main/stable/Dockerfile) | [2.0.28](https://forums.factorio.com/124820) | Factorio headless server stable release | 2024-12-21 |
+| [experimental](https://github.com/goofball222/factorio/blob/main/experimental/Dockerfile) | [2.0.23](https://forums.factorio.com/124820) | Factorio headless server experimental release | 2024-12-21 |
+| [2.0.28](https://github.com/goofball222/factorio/releases/tag/2.0.28) | [2.0.28](https://forums.factorio.com/124820) | Factorio headless server stable static release | 2024-12-21 |
 
 ---
 
@@ -106,7 +106,7 @@ services:
 | `DEBUG` | ***false*** | Set to *true* for extra container verbosity for debugging |
 | `FACTORIO_OPTS` | ***unset*** | Add custom command line options to factorio server executable at runtime |
 | `FACTORIO_PORT` | ***unset*** | Override server default port for game client connections |
-| `FACTORIO_RCON_PASSWORD` | ***unset*** | Specifiy the server RCON password |
+| `FACTORIO_RCON_PASSWORD` | ***unset*** | Specify the server RCON password |
 | `FACTORIO_RCON_PORT` | ***27015*** | Specifies the server RCON admin port |
 | `FACTORIO_SCENARIO` | ***unset*** | Specifies a scenario name for the server to run |
 | `PGID` | ***999*** | Specifies the GID for the container internal factorio group (used for file ownership) |
