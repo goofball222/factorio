@@ -1,3 +1,7 @@
+* **2025-03-26**
+  * Stable Factorio v[2.0.43](https://forums.factorio.com/127780)
+  * Experimental Factorio v[2.0.43](https://forums.factorio.com/127780)
+---
 * **2025-03-19**
   * Stable Factorio v[2.0.42](https://forums.factorio.com/127608)
   * Experimental Factorio v[2.0.42](https://forums.factorio.com/127608)
