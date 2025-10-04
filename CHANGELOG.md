@@ -1,4 +1,8 @@
-* **2025-09-05**
+**2025-10-04**
+  * Stable Factorio v[2.0.69](https://forums.factorio.com/131103)
+  * Experimental Factorio v[2.0.69](https://forums.factorio.com/131103)
+---
+**2025-09-05**
   * Stable Factorio v[2.0.66](https://forums.factorio.com/130640)
   * Experimental Factorio v[2.0.66](https://forums.factorio.com/130640)
 ---
